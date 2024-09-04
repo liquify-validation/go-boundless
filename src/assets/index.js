@@ -7,7 +7,7 @@ import DataIcon from "./data_icon.svg";
 import DualSimsIcon from "./dual_sims_icon.svg";
 import EsimsBg from "./esims_bg.svg";
 import GoBoundlessLogoBlack from "./go_boundless_black.svg";
-import GoBoundlessLogoGreen from "./goboundless_logo_green.svg";
+import GoBoundlessLogoGreen from "./logo_green.svg";
 import GoBoundlessIcon from "./go_boundless_icon.svg";
 import NoRoamingChargesIcon from "./no_roaming_charges_icon.svg";
 import PaperTrailBgLeft from "./paper_plane_trail_left.svg";
@@ -26,6 +26,12 @@ import WarningIcon from "./warning_icon.svg";
 import WorldMapBg from "./world_map.svg";
 import ArrowLeft from "./arrow_left.svg";
 import ArrowRight from "./arrow_right.svg";
+import BasketIcon from "./basket_icon.svg";
+import AccountSettingsIcon from "./account_settings_icon.svg";
+import GoPointsIcon from "./go_points_icon.svg";
+import HelpCenterIcon from "./help_center_icon.svg";
+import OrderHistoryIcon from "./order_history_icon.svg";
+import DownArrowIcon from "./down_arrow_icon.svg";
 
 export {
   IphoneImage,
@@ -56,4 +62,10 @@ export {
   WorldMapBg,
   ArrowLeft,
   ArrowRight,
+  BasketIcon,
+  AccountSettingsIcon,
+  GoPointsIcon,
+  HelpCenterIcon,
+  OrderHistoryIcon,
+  DownArrowIcon,
 };

@@ -7,11 +7,11 @@ import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Manage from "./pages/Manage";
-import ContactUs from "./pages/ContactUs";
-import Settings from "./pages/Profile/Settings";
-import GoPoints from "./pages/Profile/GoPoints";
-import Promos from "./pages/Profile/Promos";
-import OrderHistory from "./pages/Profile/OrderHistory";
+import Contact from "./pages/Contact";
+import Settings from "./pages/Settings";
+import GoPoints from "./pages//GoPoints";
+import Promos from "./pages/Promos";
+import OrderHistory from "./pages/OrderHistory";
 
 const App = () => {
   return (
@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<Signup />} />
           <Route path="/manage" element={<Manage />} />
-          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/contact-us" element={<Contact />} />
 
           {/* Nested routes for profile */}
           <Route path="/profile/settings" element={<Settings />} />
