@@ -5,7 +5,8 @@ import CtaBanner from "./CtaBanner";
 import DataHero from "./DataHero";
 import DataPackages from "./DataPackages";
 import Faqs from "./Faqs";
-import Features from "./Features";
+import FeatureSection from "./FeatureSection";
+import FeatureCard from "./FeatureCard";
 import Gallery from "./Gallery";
 import Hero from "./Hero";
 import HowItWorks from "./HowItWorks";
@@ -18,6 +19,8 @@ import PointsSummary from "./PointsSummary";
 import PromoCard from "./PromoCard";
 import SignupForm from "./SignupForm";
 import SuccessMessage from "./SuccessMessage";
+import HowItWorksCards from "./HowItWorksCards";
+import CountryCard from "./CountryCard";
 
 export {
   ContactForm,
@@ -27,7 +30,8 @@ export {
   DataHero,
   DataPackages,
   Faqs,
-  Features,
+  FeatureCard,
+  FeatureSection,
   Gallery,
   Hero,
   HowItWorks,
@@ -40,4 +44,6 @@ export {
   PromoCard,
   SignupForm,
   SuccessMessage,
+  HowItWorksCards,
+  CountryCard,
 };

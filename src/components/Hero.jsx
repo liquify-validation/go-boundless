@@ -3,7 +3,7 @@ import Gallery from "./Gallery"; // Import the Gallery component
 
 const Hero = () => {
   return (
-    <div className="relative  mx-auto  py-10 ">
+    <div className="relative mx-auto py-10 ">
       {/* Grid Layout */}
       <div className="grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12 ">
         {/* Left Side: Text Content */}

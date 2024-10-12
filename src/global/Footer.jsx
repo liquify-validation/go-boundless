@@ -1,5 +1,5 @@
-import React from "react";
 import { GoBoundlessLogoGreen } from "../assets"; // Import your SVG logo here
+import Back from "../ui/Back";
 
 const Footer = () => {
   return (
@@ -7,6 +7,7 @@ const Footer = () => {
       <div className="flex flex-wrap items-center justify-center text-center gap-y-6 gap-x-12 md:justify-between">
         {/* Logo and Text */}
         <div className="text-center">
+          <Back />
           <img src={GoBoundlessLogoGreen} alt="Go Boundless Logo" />
           <p className="text-black text-sm mt-4 max-w-[40%] text-left ml-4">
             Empowering you to go beyond boundaries with the best tools and
