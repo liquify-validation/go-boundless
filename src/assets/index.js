@@ -7,6 +7,7 @@ import DataIcon from "./data_icon.svg";
 import DualSimsIcon from "./dual_sims_icon.svg";
 import EsimsBg from "./esims_bg.svg";
 import GoBoundlessLogoBlack from "./go_boundless_black.svg";
+import GoBoundlessLogo from "./goboundless_logo.svg";
 import GoBoundlessLogoGreen from "./logo_green.svg";
 import GoBoundlessIcon from "./go_boundless_icon.svg";
 import NoRoamingChargesIcon from "./no_roaming_charges_icon.svg";
@@ -32,6 +33,15 @@ import GoPointsIcon from "./go_points_icon.svg";
 import HelpCenterIcon from "./help_center_icon.svg";
 import OrderHistoryIcon from "./order_history_icon.svg";
 import DownArrowIcon from "./down_arrow_icon.svg";
+import MagnifyingGlassIcon from "./magnifer.svg";
+import WifiIcon from "./wifi_icon.svg";
+import ExpiryIcon from "./expiry_icon.svg";
+import DeliveryIcon from "./delivery_icon.svg";
+import GradientDot from "./green_elipse.svg";
+import EmailIcon from "./letter.svg";
+import NoRoamingIconWhite from "./noroamingiconwhiteborder.svg";
+import WifiIconWhite from "./wifiiconwhiteborder.svg";
+import FastIconWhite from "./fasticonwhiteborder.svg";
 
 export {
   IphoneImage,
@@ -68,4 +78,14 @@ export {
   HelpCenterIcon,
   OrderHistoryIcon,
   DownArrowIcon,
+  MagnifyingGlassIcon,
+  GoBoundlessLogo,
+  WifiIcon,
+  DeliveryIcon,
+  ExpiryIcon,
+  GradientDot,
+  EmailIcon,
+  WifiIconWhite,
+  FastIconWhite,
+  NoRoamingIconWhite,
 };

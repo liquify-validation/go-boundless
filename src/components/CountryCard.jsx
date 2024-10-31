@@ -1,64 +1,30 @@
 import React from "react";
-import { Box, Typography, Button } from "@mui/material";
 
 const CountryCard = ({ countryName, countryIcon, price, link }) => {
   return (
-    <Box
-      sx={{
-        p: "2px",
-        overflow: "hidden",
-        border: "1px solid #e0e0e0",
-        borderRadius: "8px",
-        boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-        transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-        "&:hover": {
-          transform: "scale(1.05)",
-          boxShadow: "0px 8px 20px rgba(0, 0, 0, 0.15)",
-        },
-        backgroundColor: "#fff",
-      }}
-    >
-      <Box sx={{ padding: "16px" }}>
-        <Box display="flex" alignItems="center" mb={2}>
-          <Box
-            sx={{
-              width: "40px",
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "50%",
-              backgroundColor: "#f0f4f8",
-              marginRight: "16px",
-            }}
-          >
-            <img src={countryIcon} alt={`${countryName} Icon`} width="30px" />
-          </Box>
-          <Typography variant="h6" fontWeight="bold">
-            {countryName}
-          </Typography>
-        </Box>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Typography variant="body1" fontWeight="bold" color="textSecondary">
-            Price starting from
-          </Typography>
-          <Typography variant="h6" fontWeight="bold">
-            {price}
-          </Typography>
-        </Box>
-        <Button
-          href={link}
-          sx={{
-            mt: 2,
-            textTransform: "none",
-            color: "#3f51b5",
-            fontWeight: "bold",
-          }}
-        >
-          View Details
-        </Button>
-      </Box>
-    </Box>
+    <div className="p-1 overflow-hidden border border-gray-300 rounded-lg shadow-md transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg endpoint-card">
+      <div className="p-4">
+        <div className="flex items-center mb-4">
+          <div className="w-10 h-10 flex items-center justify-center rounded-full mr-4 ring-2 ring-gray-500 ring-offset-1">
+            <img
+              src={countryIcon}
+              alt={`${countryName} Icon`}
+              className="w-8 h-8 rounded-full"
+            />
+          </div>
+          <div className=" align-left">
+            <p className="subtitle">eSim</p>
+            <h2 className="text-xl font-semibold">{countryName}</h2>
+          </div>
+        </div>
+        <div className="flex justify-between items-center mb-2 pt-4">
+          <p className="text-gray-50 font-weight-400 text-base">
+            Starting from
+          </p>
+          <h3 className="text-gray-50 font-weight-400 text-base">{price}</h3>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -10,6 +10,8 @@ import Profile from "./Profile";
 import Promos from "./Promos";
 import Settings from "./Settings";
 import Signup from "./Signup";
+import ForgotPassword from "./ForgotPassword";
+import ResetPassword from "./ResetPassword";
 
 export {
   Contact,
@@ -24,4 +26,6 @@ export {
   Promos,
   Settings,
   Signup,
+  ForgotPassword,
+  ResetPassword,
 };

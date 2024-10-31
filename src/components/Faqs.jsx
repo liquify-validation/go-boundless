@@ -5,7 +5,7 @@ const Faqs = ({ title, subtext, faqs }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
 
   const toggleFaq = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index); // Toggle expanded state
+    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
   return (

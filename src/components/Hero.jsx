@@ -1,5 +1,5 @@
 import React from "react";
-import Gallery from "./Gallery"; // Import the Gallery component
+import Gallery from "./Gallery";
 
 const Hero = () => {
   return (

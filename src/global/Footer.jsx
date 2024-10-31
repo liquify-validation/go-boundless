@@ -1,4 +1,4 @@
-import { GoBoundlessLogoGreen } from "../assets"; // Import your SVG logo here
+import { GoBoundlessLogoGreen } from "../assets";
 import Back from "../ui/Back";
 
 const Footer = () => {

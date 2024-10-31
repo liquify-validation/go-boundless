@@ -1,4 +1,3 @@
-// components/FeatureCard.js
 import React from "react";
 
 const FeatureCard = ({ icon: Icon, title, details }) => {

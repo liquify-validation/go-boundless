@@ -1,4 +1,3 @@
-// components/FeatureSection.js
 import React from "react";
 import FeatureCard from "./FeatureCard";
 
@@ -11,7 +10,7 @@ const FeatureSection = ({ title, subtext, features }) => {
         </h2>
         <p className="text-gray-100 mx-auto max-w-[50%]">{subtext}</p>
       </div>
-      <div className="   grid justify-center gap-32 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid justify-center gap-32 sm:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => (
           <FeatureCard
             key={index}

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import {
   Menu,
   MenuHandler,
@@ -17,20 +18,31 @@ import {
 } from "@heroicons/react/24/solid";
 import { BasketIcon, GoBoundlessLogoGreen } from "../assets";
 import USFlag from "../assets/countries/USA.svg";
+import CustomButton from "../ui/CustomButton";
+import { useAuth } from "../context/AuthContext";
 
-// Profile menu items
 const profileMenuItems = [
-  { label: "Account Settings", icon: Cog6ToothIcon },
-  { label: "Go Points", icon: UserCircleIcon },
-  { label: "Help Center", icon: LifebuoyIcon },
-  { label: "Order History", icon: InboxArrowDownIcon },
-  { label: "Sign Out", icon: PowerIcon, isDanger: true },
+  { label: "Account Settings", icon: Cog6ToothIcon, link: "/account-settings" },
+  { label: "Go Points", icon: UserCircleIcon, link: "/go-points" },
+  { label: "Help Center", icon: LifebuoyIcon, link: "/help-center" },
+  { label: "Order History", icon: InboxArrowDownIcon, link: "/order-history" },
+  { label: "Sign Out", icon: PowerIcon, isDanger: true, action: "logout" },
 ];
 
 function ProfileMenu() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { logoutUser } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleMenuItemClick = (item) => {
+    closeMenu();
+    if (item.action === "logout") {
+      logoutUser();
+    } else if (item.link) {
+      window.location.href = item.link;
+    }
+  };
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -50,10 +62,12 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1 bg-[#02150f] text-white">
-        {profileMenuItems.map(({ label, icon, isDanger }, key) => (
+        {profileMenuItems.map(({ label, icon, isDanger, link, action }) => (
           <MenuItem
             key={label}
-            onClick={closeMenu}
+            onClick={() =>
+              handleMenuItemClick({ label, icon, isDanger, link, action })
+            }
             className={`flex items-center gap-2 rounded ${
               isDanger
                 ? "hover:bg-red-500/10 focus:bg-red-500/10"
@@ -79,16 +93,20 @@ function ProfileMenu() {
 }
 
 const Navbar = () => {
+  const { authData, logoutUser } = useAuth();
+
+  const isAuthenticated = !!authData.userAccessToken;
+
   return (
     <header className="w-full bg-bg text-text py-4 px-12">
       <nav className="w-full flex flex-wrap items-center justify-between">
         {/* Logo */}
-        <a
+        <Link
           className="sm:order-1 flex-none text-xl font-semibold focus:outline-none focus:opacity-80"
-          href="#"
+          to="/"
         >
           <img src={GoBoundlessLogoGreen} alt="Brand Logo" />
-        </a>
+        </Link>
 
         {/* Center Menu */}
         <div
@@ -97,60 +115,80 @@ const Navbar = () => {
         >
           <ul className="flex flex-col gap-8 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:pl-24">
             <li>
-              <a
+              <Link
                 className="font-medium text-white hover:text-primary focus:outline-none"
-                href="#"
+                to="/"
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 className="font-medium text-white hover:text-primary focus:outline-none"
-                href="#"
+                to="/data-packages"
               >
                 Data
-              </a>
+              </Link>
             </li>
+
+            {/* Conditionally Render "Manage" and "Profile" Links */}
+            {isAuthenticated && (
+              <>
+                <li>
+                  <Link
+                    className="font-medium text-white hover:text-primary focus:outline-none"
+                    to="/manage"
+                  >
+                    Manage
+                  </Link>
+                </li>
+                <li>
+                  <ProfileMenu />
+                </li>
+              </>
+            )}
+
             <li>
-              <a
+              <Link
                 className="font-medium text-white hover:text-primary focus:outline-none"
-                href="#"
-              >
-                Manage
-              </a>
-            </li>
-            <li>
-              <a
-                className="font-medium text-white hover:text-primary focus:outline-none"
-                href="#"
+                to="/contact-us"
               >
                 Contact Us
-              </a>
+              </Link>
             </li>
-            <ProfileMenu />
           </ul>
         </div>
 
-        {/* Right Side: Language/Currency, Basket Icon, and Login Button */}
+        {/* Right Side: Language/Currency, Basket Icon, and Login/Logout Button */}
         <div className="sm:order-3 flex items-center gap-x-8">
-          {/* Language/Currency Dropdown */}
-          <div className="flex items-center text-white hover:text-primary focus:outline-none">
+          {/* Language/Currency Dropdown (Optional) */}
+          {/* <div className="flex items-center text-white hover:text-primary focus:outline-none">
             <img src={USFlag} alt="US Flag" className="h-5 mr-2" />
             USD
-          </div>
+          </div> */}
 
-          {/* Basket Icon */}
-          <button
+          {/* Basket Icon (Optional) */}
+          {/* <button
             type="button"
             className="relative focus:outline-none text-white hover:text-primary"
           >
             <img src={BasketIcon} alt="Basket" />
             <span className="sr-only">Basket</span>
-          </button>
+          </button> */}
 
-          {/* Login Button */}
-          <Button text="Login" link="login" />
+          {/* Conditionally Render Login or Logout Button */}
+          {isAuthenticated ? (
+            <Button
+              variant="outlined"
+              color="red"
+              className="text-white border-red-500 hover:bg-red-500 hover:text-white"
+              onClick={logoutUser}
+            >
+              Logout
+            </Button>
+          ) : (
+            <CustomButton text="Login" link="/login" />
+          )}
         </div>
       </nav>
     </header>

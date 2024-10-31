@@ -1,25 +1,50 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const CustomButton = ({
-  textSize = "text-base", // Tailwind text size utility
-  borderRadius = "rounded-lg", // Use Tailwind's rounded-lg for 15px equivalent
-  bgColor = "bg-primary", // Tailwind bg color class
-  textColor = "text-black", // Tailwind text color class
+  textSize = "text-base",
+  borderRadius = "rounded-full",
+  bgColor = "bg-primary",
+  textColor = "text-black",
+  px = "px-4",
+  py = "py-2",
   text,
   link,
+  onClick,
+  disabled = false,
+  type = "button",
+  fullWidth = false,
 }) => {
-  const baseClasses = `px-4 py-2 ${textSize} ${borderRadius} ${bgColor} ${textColor} border border-transparent`;
+  const widthClass = fullWidth ? "w-full" : px;
+  const baseClasses = `${widthClass} ${py} ${px} ${textSize} ${borderRadius} ${bgColor} ${textColor} border border-transparent`;
 
-  if (link) {
+  if (onClick || type === "submit") {
     return (
-      <a href={link} className={baseClasses}>
+      <button
+        onClick={onClick}
+        className={baseClasses}
+        disabled={disabled}
+        type={type}
+      >
         {text}
-      </a>
+      </button>
     );
   }
 
-  return <button className={baseClasses}>{text}</button>;
+  if (link) {
+    return (
+      <Link to={link} className={baseClasses}>
+        {text}
+      </Link>
+    );
+  }
+
+  return (
+    <button className={baseClasses} disabled={disabled}>
+      {text}
+    </button>
+  );
 };
 
 CustomButton.propTypes = {
@@ -27,8 +52,11 @@ CustomButton.propTypes = {
   borderRadius: PropTypes.string,
   bgColor: PropTypes.string,
   textColor: PropTypes.string,
+  px: PropTypes.string,
+  py: PropTypes.string,
   text: PropTypes.string.isRequired,
   link: PropTypes.string,
+  fullWidth: PropTypes.bool,
 };
 
 export default CustomButton;

@@ -1,13 +1,23 @@
 import {
   CtaBanner,
+  DataPackagesSection,
   Faqs,
   FeatureSection,
   Hero,
   HowItWorks,
 } from "../components";
+import CountrySection from "../components/CountrySection";
 import { faqData, featuresData } from "../data/constants";
+import { useInventory } from "../hooks/useInventory";
 
 function Homepage() {
+  const { data, error, isLoading } = useInventory();
+
+  if (isLoading) return <div>Loading eSIM Services...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  console.log("inventory", data);
+
   return (
     <>
       <div>
@@ -20,8 +30,14 @@ function Homepage() {
           features={featuresData}
         />
       </div>
+      <div className="w-full pt-80">
+        <CountrySection />
+      </div>
       <div className="pb-24 pt-24">
         <HowItWorks />
+      </div>
+      <div className="pb-24 pt-24">
+        <DataPackagesSection />
       </div>
       <div className="py-8 w-full">
         <CtaBanner />

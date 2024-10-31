@@ -1,7 +1,5 @@
-/* Import Plus Jakarta Sans */
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
-/* src/index.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,21 +19,42 @@
 
 a {
   font-weight: 500;
-  color: #b3ff4a; /* Primary color for links */
+  color: #b3ff4a;
   text-decoration: none;
 }
 a:hover {
-  color: #8ddc3a; /* Slightly darker shade for hover */
+  color: #8ddc3a;
+}
+
+.endpoint-card {
+  border-radius: 25px !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+.contact-form-field {
+  border-radius: 25px !important;
+  border: 1px solid rgba(255, 255, 255, 0.5) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  width: 100%; /* Ensure full width */
+  width: 100%;
   display: flex;
-  flex-direction: column; /* Stack content vertically */
-  align-items: stretch; /* Ensure content takes full width */
+  flex-direction: column;
+  align-items: stretch;
+  overflow-x: hidden;
 }
 
 /* Customize heading styles */
@@ -53,4 +72,31 @@ h4 {
 }
 p {
   @apply text-p;
+}
+
+.subtitle {
+  font-size: 0.75em;
+  color: #b3ff4a;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+/* .ReactFlagsSelect-module_selectOptions__3LNBJ {
+  background-color: red;
+  color: white;
+} */
+
+.menu-flag ul {
+  background-color: #02150f;
+  border-radius: 10px;
+}
+
+.menu-flag div {
+  background-color: #02150f;
+  border-radius: 10px;
+}
+
+.menu-flag input {
+  background-color: #02150f;
+  border-radius: 10px;
 }

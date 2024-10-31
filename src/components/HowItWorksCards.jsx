@@ -1,4 +1,3 @@
-// components/HowItWorksCards.jsx
 import React from "react";
 
 const HowItWorksCards = ({ data }) => {

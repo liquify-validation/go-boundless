@@ -8,14 +8,18 @@ import {
   TickIcon,
 } from "../assets";
 
-import {
-  UK,
-  Turkey,
-  Thailand,
-  Philippines,
-  Vietnam,
-  Spain,
-} from "../assets/countries";
+import UK from "../assets/countries/UK.svg";
+import Turkey from "../assets/countries/Turkey.svg";
+import Thailand from "../assets/countries/Thailand.svg";
+import Philippines from "../assets/countries/Phillipines.svg";
+import Vietnam from "../assets/countries/Vietnam.svg";
+import USA from "../assets/countries/USA.svg";
+import Singapore from "../assets/countries/Singapore.svg";
+import Sweden from "../assets/countries/Sweden.svg";
+import Germany from "../assets/countries/Germany.svg";
+import France from "../assets/countries/France.svg";
+import PuertoRico from "../assets/countries/PuertoRico.svg";
+import Spain from "../assets/countries/Spain.svg";
 
 export const featuresData = [
   {
@@ -166,5 +170,41 @@ export const countryData = [
     countryIcon: Spain,
     price: "$14.00",
     link: "/country/spain",
+  },
+  {
+    countryName: "USA",
+    countryIcon: USA,
+    price: "$14.00",
+    link: "/country/usa",
+  },
+  {
+    countryName: "Singapore",
+    countryIcon: Singapore,
+    price: "$14.00",
+    link: "/country/singapore",
+  },
+  {
+    countryName: "Sweden",
+    countryIcon: Sweden,
+    price: "$14.00",
+    link: "/country/sweden",
+  },
+  {
+    countryName: "France",
+    countryIcon: France,
+    price: "$14.00",
+    link: "/country/france",
+  },
+  {
+    countryName: "Germany",
+    countryIcon: Germany,
+    price: "$14.00",
+    link: "/country/germany",
+  },
+  {
+    countryName: "Puerto Rico",
+    countryIcon: PuertoRico,
+    price: "$14.00",
+    link: "/country/puerto-rico",
   },
 ];

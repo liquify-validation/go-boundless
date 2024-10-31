@@ -6,7 +6,7 @@ const Back = ({ link }) => {
 
   const handleBackClick = () => {
     if (link) {
-      window.location.href = link;
+      navigate(link);
     } else {
       navigate(-1);
     }
@@ -14,12 +14,13 @@ const Back = ({ link }) => {
 
   return (
     <div className="top-4 left-4">
-      <span
+      <button
         onClick={handleBackClick}
         className="cursor-pointer underline hover:no-underline font-size-[50px] text-gray-50"
+        aria-label="Go Back"
       >
         &lt; Back
-      </span>
+      </button>
     </div>
   );
 };

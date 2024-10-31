@@ -4,12 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#B3FF4A", // Updated primary color
-        bg: "#02160F", // Background color
-        text: "#FFFFFF", // Main text color
+        primary: "#B3FF4A",
+        bg: "#02160F",
+        text: "#FFFFFF",
       },
       fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "sans-serif"], // Import and use Plus Jakarta Sans
+        sans: ["'Plus Jakarta Sans'", "sans-serif"],
       },
       fontSize: {
         h1: ["48px", { lineHeight: "1.2" }],

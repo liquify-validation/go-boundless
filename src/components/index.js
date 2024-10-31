@@ -1,9 +1,9 @@
 import AddPackage from "./AddPackage";
 import ContactForm from "./ContactForm";
-import CountrySearch from "./CountrySearch";
+import SearchBar from "./SearchBar";
 import CtaBanner from "./CtaBanner";
 import DataHero from "./DataHero";
-import DataPackages from "./DataPackages";
+import DataPackagesSection from "./DataPackagesSection";
 import Faqs from "./Faqs";
 import FeatureSection from "./FeatureSection";
 import FeatureCard from "./FeatureCard";
@@ -21,14 +21,25 @@ import SignupForm from "./SignupForm";
 import SuccessMessage from "./SuccessMessage";
 import HowItWorksCards from "./HowItWorksCards";
 import CountryCard from "./CountryCard";
+import ForgotPasswordForm from "./ForgotPasswordForm";
+import ResetPasswordForm from "./ResetPasswordForm";
+import DataPackageCards from "./DataPackageCards";
+import PaymentForm from "./PaymentForm";
+import OrderSummary from "./OrderSummary";
+import CheckoutDataPackage from "./CheckoutDataPackage";
+import SupportedHero from "./SupportedHero";
+import CountryList from "./CountryList";
+import DeviceList from "./DeviceList";
+import VendorTabs from "./VendorTabs";
+import ProductCard from "./ProductCard";
 
 export {
   ContactForm,
   AddPackage,
-  CountrySearch,
+  SearchBar,
   CtaBanner,
   DataHero,
-  DataPackages,
+  DataPackagesSection,
   Faqs,
   FeatureCard,
   FeatureSection,
@@ -46,4 +57,15 @@ export {
   SuccessMessage,
   HowItWorksCards,
   CountryCard,
+  ForgotPasswordForm,
+  ResetPasswordForm,
+  DataPackageCards,
+  PaymentForm,
+  OrderSummary,
+  CheckoutDataPackage,
+  SupportedHero,
+  CountryList,
+  DeviceList,
+  VendorTabs,
+  ProductCard,
 };
