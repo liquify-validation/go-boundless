@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import Manage from "./pages/Manage";
 import Contact from "./pages/Contact";
 import Settings from "./pages/Settings";
-import GoPoints from "./pages//GoPoints";
+import GoPoints from "./pages/GoPoints";
 import Promos from "./pages/Promos";
 import OrderHistory from "./pages/OrderHistory";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -23,6 +23,7 @@ import Verification from "./pages/Verification";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import DataPackages from "./pages/DataPackages";
+import { ManagePlan } from "./components";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
@@ -64,6 +65,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <Manage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage/:itemId"
+              element={
+                <ProtectedRoute>
+                  <ManagePlan />
                 </ProtectedRoute>
               }
             />

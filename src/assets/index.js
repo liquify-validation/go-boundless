@@ -42,6 +42,9 @@ import EmailIcon from "./letter.svg";
 import NoRoamingIconWhite from "./noroamingiconwhiteborder.svg";
 import WifiIconWhite from "./wifiiconwhiteborder.svg";
 import FastIconWhite from "./fasticonwhiteborder.svg";
+import GoBoundlessRoundedIcon from "./goboundlessroundedicon.svg";
+import LockIcon from "./lockicon.svg";
+import CardIcon from "./cardicon.svg";
 
 export {
   IphoneImage,
@@ -88,4 +91,7 @@ export {
   WifiIconWhite,
   FastIconWhite,
   NoRoamingIconWhite,
+  LockIcon,
+  CardIcon,
+  GoBoundlessRoundedIcon,
 };

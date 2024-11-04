@@ -1,7 +1,18 @@
 import React from "react";
+import { ProfileForm } from "../components";
+import { WorldMapBg } from "../assets";
 
-function Profile() {
-  return <div></div>;
-}
+const Signup = () => {
+  return (
+    <section
+      className="relative bg-cover bg-center"
+      style={{ backgroundImage: `url(${WorldMapBg})` }}
+    >
+      <div>
+        <ProfileForm />
+      </div>
+    </section>
+  );
+};
 
-export default Profile;
+export default Signup;

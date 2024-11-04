@@ -1,12 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useVerifyCode } from "../hooks/Auth/useVerifyCode";
+import { useResendVerificationCode } from "../hooks/Auth/useResendVerificationCode";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import CustomButton from "../ui/CustomButton";
 import { setStoredToken } from "../utilities/helpers";
-
-// TO DO - ADD RESEND LOGIC
 
 const VerificationForm = ({ email }) => {
   const {
@@ -19,6 +18,8 @@ const VerificationForm = ({ email }) => {
   const navigate = useNavigate();
   const { redirectTo, packageData } = location.state || {};
   const { setAuthData } = useAuth();
+  const [resendMessage, setResendMessage] = useState("");
+  const [resendError, setResendError] = useState("");
 
   const code = watch(["code1", "code2", "code3", "code4", "code5", "code6"]);
 
@@ -29,7 +30,7 @@ const VerificationForm = ({ email }) => {
       email: email,
       code: combinedCode,
     };
-    verifyCodeMutation.mutate(verificationData);
+    verifyCodeMutation(verificationData);
   };
 
   const inputRefs = useRef([]);
@@ -78,19 +79,41 @@ const VerificationForm = ({ email }) => {
     },
   });
 
+  const {
+    mutate: resendCodeMutation,
+    isLoading: isResendLoading,
+    isError: isResendError,
+    error: resendErrorData,
+  } = useResendVerificationCode({
+    onSuccess: (data) => {
+      setResendMessage(data.message);
+      setResendError("");
+    },
+    onError: (error) => {
+      setResendMessage("");
+      setResendError(
+        error.response?.data?.message || "Failed to resend verification code."
+      );
+    },
+  });
+
+  const handleResendCode = () => {
+    resendCodeMutation({ email });
+  };
+
   return (
     <form
       className="endpoint-card max-w-xl mx-auto p-8 bg-white shadow-md rounded-md mt-24"
       onSubmit={handleSubmit(onSubmit)}
     >
       <h2 className="text-3xl font-semibold mb-4 text-center">
-        Verify Your Email
+        Verify your email
       </h2>
       <p className="mb-6 text-center text-gray-50">
         Please enter the verification code sent to your email.
       </p>
 
-      <div className="flex justify-center mb-12 pt-6">
+      <div className="flex justify-center mb-10 pt-6">
         {[1, 2, 3, 4, 5, 6].map((num, index) => {
           const {
             ref: registerRef,
@@ -154,6 +177,28 @@ const VerificationForm = ({ email }) => {
           {error.response?.data?.message || "Verification failed"}
         </p>
       )}
+
+      {/* Resend Code Section */}
+      <div className="text-center mt-6">
+        <p className="text-gray-50 text-sm ">
+          Didn't receive a code?{" "}
+          <button
+            type="button"
+            onClick={handleResendCode}
+            disabled={isResendLoading}
+            className="text-primary hover:underline disabled:opacity-50"
+          >
+            Resend Code
+          </button>
+        </p>
+        {isResendLoading && (
+          <p className="text-gray-50 mt-2">Resending code...</p>
+        )}
+        {resendMessage && (
+          <p className="text-green-500 mt-2">{resendMessage}</p>
+        )}
+        {resendError && <p className="text-red-500 mt-2">{resendError}</p>}
+      </div>
     </form>
   );
 };

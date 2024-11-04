@@ -25,6 +25,8 @@ const DataPackagesSection = () => {
       .join(", ");
   };
 
+  console.log("inventory data", data);
+
   const packages =
     data?.items
       .filter((item) => item.active)
@@ -50,6 +52,8 @@ const DataPackagesSection = () => {
         {packages.length > 0 ? (
           packages.map((pkg, index) => (
             <DataPackageCards
+              id={pkg.id}
+              name={pkg.name}
               key={index}
               countries={pkg.countries}
               price={pkg.price}

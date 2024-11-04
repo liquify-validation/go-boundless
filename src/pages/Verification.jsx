@@ -11,7 +11,7 @@ const VerificationPage = () => {
   }
 
   return (
-    <section>
+    <section className="mb-16">
       <VerificationForm email={email} />
     </section>
   );

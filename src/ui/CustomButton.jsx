@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
+// TO DO - FIX FULL WIDTH NOT APPLYING
+
 const CustomButton = ({
   textSize = "text-base",
   borderRadius = "rounded-full",

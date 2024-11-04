@@ -32,6 +32,11 @@ import CountryList from "./CountryList";
 import DeviceList from "./DeviceList";
 import VendorTabs from "./VendorTabs";
 import ProductCard from "./ProductCard";
+import ProfileForm from "./ProfileForm";
+import ManageSimsTable from "./ManageSimsTable";
+import DataPlanCard from "./DataPlanCard";
+import UsedDataCard from "./UsedDataCard";
+import TopUpCard from "./TopUpCard";
 
 export {
   ContactForm,
@@ -68,4 +73,9 @@ export {
   DeviceList,
   VendorTabs,
   ProductCard,
+  ProfileForm,
+  ManageSimsTable,
+  TopUpCard,
+  DataPlanCard,
+  UsedDataCard,
 };

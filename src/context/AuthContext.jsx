@@ -129,6 +129,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         authData,
+        setAuthData,
         loginUser: loginUserFunction,
         logoutUser,
         triggerStoreAuth,

@@ -5,6 +5,7 @@ import Button from "../ui/CustomButton";
 import { IphoneImage, EsimsBg } from "../assets";
 
 const HowItWorks = () => {
+  // TO DO - CENTER FEATURES AND LESSEN GAP
   return (
     <section
       className="relative bg-contain pt-20 bg-center bg-no-repeat"

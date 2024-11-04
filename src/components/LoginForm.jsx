@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import CustomButton from "../ui/CustomButton";
 import { GoBoundlessLogoGreen } from "../assets";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 const LoginForm = () => {
   const {
@@ -89,7 +89,7 @@ const LoginForm = () => {
           )}
 
           {/* Submit Button */}
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-center pt-2">
             <CustomButton
               fullWidth={true}
               text={loginLoading ? "Logging in..." : "Login"}

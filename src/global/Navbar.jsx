@@ -29,6 +29,8 @@ const profileMenuItems = [
   { label: "Sign Out", icon: PowerIcon, isDanger: true, action: "logout" },
 ];
 
+// TO DO - STYLE LOGOUT BUTTON
+
 function ProfileMenu() {
   const { logoutUser } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -142,9 +144,18 @@ const Navbar = () => {
                     Manage
                   </Link>
                 </li>
+
                 <li>
-                  <ProfileMenu />
+                  <Link
+                    className="font-medium text-white hover:text-primary focus:outline-none"
+                    to="/profile"
+                  >
+                    Profile
+                  </Link>
                 </li>
+                {/* <li>
+                  <ProfileMenu />
+                </li> */}
               </>
             )}
 
@@ -178,14 +189,7 @@ const Navbar = () => {
 
           {/* Conditionally Render Login or Logout Button */}
           {isAuthenticated ? (
-            <Button
-              variant="outlined"
-              color="red"
-              className="text-white border-red-500 hover:bg-red-500 hover:text-white"
-              onClick={logoutUser}
-            >
-              Logout
-            </Button>
+            <CustomButton onClick={logoutUser} text="Logout" />
           ) : (
             <CustomButton text="Login" link="/login" />
           )}

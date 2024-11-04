@@ -34,3 +34,18 @@ export const verifyCode = async (verificationData) => {
   const response = await apiClient.post("/verify-code", verificationData);
   return response.data;
 };
+
+export const resendVerificationCode = async (emailData) => {
+  const response = await apiClient.post("/resend-verification-code", emailData);
+  return response.data;
+};
+
+export const getUserDetails = async () => {
+  const response = await apiClient.post("/user");
+  return response.data;
+};
+
+export const updateUserDetails = async (updatedData) => {
+  const response = await apiClient.post("/edit-user", updatedData);
+  return response.data;
+};

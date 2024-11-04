@@ -44,7 +44,7 @@ export const fetchCustomer = async (customerUid) => {
   return await fetchWithAuth(url, { method: "GET" }, "storeAccessToken");
 };
 
-// Fetch Inventory
+// Fetch Countries
 export const fetchCountries = async () => {
   const url = `${ApiUrl}/store/countries`;
   return await fetchWithAuth(url, { method: "GET" }, "storeAccessToken");
@@ -65,6 +65,14 @@ export const createPaymentIntent = async (paymentData) => {
   });
 };
 
-// Activate New Customer
+// Get users sims
+export const getCustomerActivations = async () => {
+  const url = `${ApiUrl}/store/customer-activations`;
+  return await fetchWithAuth(url, { method: "POST" }, "storeAccessToken");
+};
 
-// Activate Exisiting Customer
+// Get users sim
+export const getActivatedItem = async (itemUid) => {
+  const url = `${ApiUrl}/store/activated-items/${itemUid}`;
+  return await fetchWithAuth(url, { method: "POST" }, "storeAccessToken");
+};

@@ -2,6 +2,7 @@ import React from "react";
 import Gallery from "./Gallery";
 
 const Hero = () => {
+  //TO DO - REPLACE WITH CUSTOM BUTTON
   return (
     <div className="relative mx-auto py-10 ">
       {/* Grid Layout */}
@@ -20,8 +21,8 @@ const Hero = () => {
             ad minim veniam, quis nostrud exercitation.
           </p>
           <div className="mt-5 lg:mt-12">
-            <button className="px-6 py-3 text-lg font-medium text-white bg-primary rounded-lg hover:bg-primary-dark">
-              Request Demo
+            <button className="px-6 py-3 text-lg font-medium text-black bg-primary rounded-lg hover:bg-primary-dark">
+              See Plans
             </button>
           </div>
         </div>

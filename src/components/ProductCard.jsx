@@ -1,27 +1,61 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { FaStar, FaRegStar, FaCircle } from "react-icons/fa";
+import {
+  WifiIconWhite,
+  FastIconWhite,
+  NoRoamingIconWhite,
+  HelpCenterIcon,
+} from "../assets";
 
-// TO DO - MAKE FUNCTIONAL TO ADD ID PRICE ETC THAT WE CAN PASS AND IT CAN ACT AS A FEATURED PRODUCT
-// TO DO - ADD BUY NOW
-// TO DO - MAKE IT EASIER TO SET A FEATURED PRODUCT FROM INVENTORY
-// TO DO - MAKE SURE RESPONSIVE
+// TO DO - replace default values with loading spinner for card
 
-const ProductCard = ({
-  subtitle,
-  title,
-  amountOfReviews,
-  reviewScore,
-  features,
-  description,
-  technicalSpecs,
-}) => {
+const ProductCard = ({ packageData }) => {
   const [activeTab, setActiveTab] = useState("Features");
+
+  const dataPackage = packageData || {
+    price: "loading..",
+    size: "loading..",
+    sizeUnit: "loading..",
+    expiry: "loading..",
+    expiryUnit: "loading..",
+  };
+
+  const subtitle = "Global Data eSim";
+  const title = "Data Package";
+  const amountOfReviews = 133;
+  const reviewScore = 5;
+
+  const features = [
+    {
+      icon: WifiIconWhite,
+      text: `${dataPackage.size} ${dataPackage.sizeUnit} of Data`,
+    },
+    { icon: FastIconWhite, text: "Fast & reliable internet" },
+    { icon: NoRoamingIconWhite, text: "No more roaming charges" },
+    { icon: HelpCenterIcon, text: "Customer Support" },
+  ];
+
+  const description = [
+    `Buy an international eSIM and never pay for roaming again. Connect to the internet for ${dataPackage.expiry} ${dataPackage.expiryUnit} and stay in touch with your family and friends.`,
+    `It's easy to start using our services. After your purchase, you will receive a QR code in your email. Scan it with your smartphone camera, install, and enjoy a fast and stable Internet connection.`,
+  ];
+
+  const technicalSpecs = [
+    {
+      title: "Installation",
+      text: "You will be sent a QR code and link for activation",
+    },
+    { title: "Countries", text: "Stay connected in multiple countries" },
+    {
+      title: "Compatibility",
+      text: "Check your device is compatible here.",
+    },
+  ];
 
   const renderStars = (score) => {
     const stars = [];
     const fullStars = Math.floor(score);
-    const hasHalfStar = score - fullStars >= 0.5;
     const totalStars = 5;
 
     for (let i = 1; i <= totalStars; i++) {
@@ -36,13 +70,13 @@ const ProductCard = ({
   };
 
   return (
-    <div className="max-w-xl  bg-opacity-10 shadow-md rounded-lg p-6 endpoint-card">
+    <div className="max-w-xl bg-opacity-10 shadow-md rounded-lg p-6 endpoint-card">
       {/* Top Section */}
       <div className="flex justify-between items-center mb-4">
         {/* Left: Subtitle and Title */}
         <div>
           <p className="text-[0.625rem] text-primary">{subtitle}</p>
-          <h2 className="text-xl font-semibold text-gray-50 mt-2 ">{title}</h2>
+          <h2 className="text-xl font-semibold text-gray-50 mt-2">{title}</h2>
         </div>
         {/* Middle: Amount of Reviews */}
         <div>
@@ -74,7 +108,7 @@ const ProductCard = ({
       {/* Content Area */}
       <div className="pt-2 pb-2">
         {activeTab === "Features" && (
-          <ul className="space-y-2 ">
+          <ul className="space-y-2">
             {features.map((feature, index) => (
               <li key={index} className="flex items-start">
                 <img
@@ -105,7 +139,7 @@ const ProductCard = ({
             {technicalSpecs.map((spec, index) => (
               <li key={index} className="flex items-start">
                 <FaCircle className="text-gray-50 mt-2.5 w-2 h-2 mr-2" />
-                <div className="">
+                <div>
                   <span className="text-sm text-gray-50 font-bold">
                     {spec.title}:
                   </span>{" "}
@@ -121,23 +155,13 @@ const ProductCard = ({
 };
 
 ProductCard.propTypes = {
-  subtitle: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  amountOfReviews: PropTypes.number.isRequired,
-  reviewScore: PropTypes.number.isRequired,
-  features: PropTypes.arrayOf(
-    PropTypes.shape({
-      icon: PropTypes.element.isRequired,
-      text: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  description: PropTypes.arrayOf(PropTypes.string).isRequired,
-  technicalSpecs: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      text: PropTypes.string,
-    })
-  ).isRequired,
+  packageData: PropTypes.shape({
+    price: PropTypes.string,
+    size: PropTypes.number,
+    sizeUnit: PropTypes.string,
+    expiry: PropTypes.number,
+    expiryUnit: PropTypes.string,
+  }),
 };
 
 export default ProductCard;

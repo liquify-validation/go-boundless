@@ -9,10 +9,9 @@ const Footer = () => {
         <div className="text-center">
           <Back />
           <img src={GoBoundlessLogoGreen} alt="Go Boundless Logo" />
-          <p className="text-black text-sm mt-4 max-w-[40%] text-left ml-4">
-            Empowering you to go beyond boundaries with the best tools and
-            resources. Empowering you to go beyond boundaries with the best
-            tools and resources.
+          <p className="text-black text-sm mt-4 max-w-[50%] text-left ml-4">
+            Empowering the bold to go beyond boundaries with the best global
+            data packages money can buy.
           </p>
         </div>
 
@@ -21,31 +20,31 @@ const Footer = () => {
           <li>
             <a
               href="#"
-              className="block font-sans text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
+              className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
             >
-              About Us
+              Home
             </a>
           </li>
           <li>
             <a
               href="#"
-              className="block font-sans text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
+              className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
             >
-              License
+              Data Plans
             </a>
           </li>
+          {/* <li>
+            <a
+              href="#"
+              className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
+            >
+              
+            </a>
+          </li> */}
           <li>
             <a
               href="#"
-              className="block font-sans text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
-            >
-              Contribute
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block font-sans text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
+              className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
             >
               Contact Us
             </a>
@@ -61,7 +60,7 @@ const Footer = () => {
       <div className="flex flex-wrap justify-between items-center text-center text-sm">
         {/* Left Side: Copyright */}
         <p className="text-sm text-gray-400">
-          © 2024 Go Boundless. All rights reserved.
+          © 2024 Liquify. All rights reserved.
         </p>
 
         {/* Right Side: Privacy Policy and Terms */}

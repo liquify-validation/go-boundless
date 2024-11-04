@@ -5,7 +5,7 @@ import { GoBoundlessLogo, WifiIcon, DeliveryIcon, ExpiryIcon } from "../assets";
 import { useCountries } from "../hooks/useCountries";
 import { useDevices } from "../hooks/useDevices";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
 
 const DataPackageCards = ({
   id,

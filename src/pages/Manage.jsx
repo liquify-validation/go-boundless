@@ -1,7 +1,12 @@
 import React from "react";
+import { ManageSimsTable } from "../components";
 
 function Manage() {
-  return <div></div>;
+  return (
+    <div>
+      <ManageSimsTable />
+    </div>
+  );
 }
 
 export default Manage;

@@ -1,25 +1,31 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { TickIcon, WorldMapBg } from "../assets";
 
 const PaymentSuccess = () => {
-  const location = useLocation();
-  const { activationCode } = location.state || {};
-
   return (
-    <div className="payment-success-container">
-      <h1>Thank You for Your Purchase!</h1>
-      <p>Your payment was successful.</p>
-      <p>Please scan the QR code below to activate your SIM:</p>
-      {activationCode ? (
+    <section
+      className="relative bg-contain bg-no-repeat bg-center py-36"
+      style={{ backgroundImage: `url(${WorldMapBg})` }}
+    >
+      <div className="payment-success-container endpoint-card p-6 max-w-lg mx-auto mt-16 ">
         <img
-          src={`data:image/png;base64,${activationCode}`}
-          alt="SIM Activation QR Code"
+          src={TickIcon}
+          alt="tick-icon"
+          className="h-24 w-24 mx-auto mb-4"
         />
-      ) : (
-        <p>Loading QR Code...</p>
-      )}
-      <p>Follow the instructions to complete the activation process.</p>
-    </div>
+        <h1 className="text-xl font-bold text-center mb-8">
+          Thank You for Your Purchase!
+        </h1>
+        <p className="text-sm">
+          Your payment was successful and an email with your eSIM activation
+          code has been sent to your email address.
+        </p>
+
+        <p className="mt-4 text-sm mb-4">
+          Please follow the instructions in the email to activate your SIM.
+        </p>
+      </div>
+    </section>
   );
 };
 
