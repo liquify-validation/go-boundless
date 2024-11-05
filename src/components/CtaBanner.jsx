@@ -14,7 +14,11 @@ const CtaBanner = () => {
             Enjoy Reliable and Affordable internet on your trips
           </h2>
 
-          <CustomButton text="Get Your eSim Now" py="py-2" />
+          <CustomButton
+            link="/data-packages"
+            text="Get Your eSim Now"
+            py="py-2"
+          />
         </div>
       </div>
     </section>

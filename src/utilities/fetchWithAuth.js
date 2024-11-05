@@ -1,5 +1,6 @@
 import { authenticate } from "../services/apiStore";
 import { getStoredToken, setStoredToken } from "./helpers";
+import { refreshAccessToken } from "../services/apiAuth";
 
 export const fetchWithAuth = async (
   url,
@@ -7,9 +8,6 @@ export const fetchWithAuth = async (
   tokenKey = "accessToken"
 ) => {
   let accessToken = getStoredToken(tokenKey);
-
-  console.log("Fetching URL:", url);
-  console.log("Using token:", accessToken);
 
   const headers = {
     ...options.headers,
@@ -35,13 +33,24 @@ export const fetchWithAuth = async (
         headers["Authorization"] = `Bearer ${newAccessToken}`;
         response = await fetch(url, { ...options, headers });
       } else if (tokenKey === "userAccessToken") {
-        throw new Error("User session expired. Please log in again.");
+        const newAccessToken = await refreshAccessToken();
+        if (newAccessToken) {
+          headers["Authorization"] = `Bearer ${newAccessToken}`;
+          response = await fetch(url, { ...options, headers });
+        } else {
+          throw new Error("User session expired. Please log in again.");
+        }
       }
     }
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || "API request failed");
+      const error = new Error(
+        errorData.error || errorData.message || "API request failed"
+      );
+      error.status = response.status;
+      error.data = errorData;
+      throw error;
     }
 
     return response.json();

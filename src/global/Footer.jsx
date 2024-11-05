@@ -65,11 +65,18 @@ const Footer = () => {
 
         {/* Right Side: Privacy Policy and Terms */}
         <div className="flex gap-x-4">
-          <a href="#" className="text-sm text-gray-400 hover:text-primary">
+          <a
+            href="/privacy-policy"
+            className="text-sm text-gray-400 hover:text-primary"
+          >
             Privacy Policy
           </a>
-          <a href="#" className="text-sm text-gray-400 hover:text-primary">
-            Terms & Conditions
+
+          <a
+            href="/terms-of-use"
+            className="text-sm text-gray-400 hover:text-primary"
+          >
+            Terms of Use
           </a>
         </div>
       </div>

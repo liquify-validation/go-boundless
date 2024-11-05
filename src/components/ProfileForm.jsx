@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomButton from "../ui/CustomButton";
-import { useUserDetails } from "../hooks/useUserDetails";
+import { useUserDetails } from "../hooks/Auth/useUserDetails";
 import { useUpdateUserDetails } from "../hooks/Auth/useUpdateUserDetails";
 
 // TO DO - ADD proper success message

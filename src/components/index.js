@@ -13,7 +13,6 @@ import HowItWorks from "./HowItWorks";
 import Layout from "./Layout";
 import LoadingSpinner from "./LoadingSpinner";
 import LoginForm from "./LoginForm";
-import ManagePlan from "./ManagePlan";
 import OrderHistory from "./OrderHistory";
 import PointsSummary from "./PointsSummary";
 import PromoCard from "./PromoCard";
@@ -37,6 +36,9 @@ import ManageSimsTable from "./ManageSimsTable";
 import DataPlanCard from "./DataPlanCard";
 import UsedDataCard from "./UsedDataCard";
 import TopUpCard from "./TopUpCard";
+import WarningCard from "./WarningCard";
+import PrivacyPolicy from "./PrivacyPolicySection";
+import TermsOfUseSection from "./TermsOfUseSection";
 
 export {
   ContactForm,
@@ -54,7 +56,6 @@ export {
   Layout,
   LoadingSpinner,
   LoginForm,
-  ManagePlan,
   OrderHistory,
   PointsSummary,
   PromoCard,
@@ -78,4 +79,7 @@ export {
   TopUpCard,
   DataPlanCard,
   UsedDataCard,
+  WarningCard,
+  PrivacyPolicy,
+  TermsOfUseSection,
 };

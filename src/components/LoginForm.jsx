@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import CustomButton from "../ui/CustomButton";
 import { GoBoundlessLogoGreen } from "../assets";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const LoginForm = () => {
@@ -103,9 +103,13 @@ const LoginForm = () => {
       <div className="text-center mt-6">
         <p className="text-sm">
           Don’t have an account?{" "}
-          <a href="/signup" className=" hover:underline">
+          <Link
+            to="/signup"
+            state={{ redirectTo, packageData }}
+            className="hover:underline"
+          >
             Sign up
-          </a>
+          </Link>
         </p>
       </div>
 

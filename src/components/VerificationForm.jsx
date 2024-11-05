@@ -13,6 +13,8 @@ const VerificationForm = ({ email }) => {
     handleSubmit,
     watch,
     formState: { errors },
+    setError,
+    setValue,
   } = useForm();
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,12 +37,17 @@ const VerificationForm = ({ email }) => {
 
   const inputRefs = useRef([]);
 
-  const handleChange = (e, index) => {
-    const value = e.target.value;
+  const handleChange = (e, index, registerOnChange) => {
+    const value = e.target.value.toUpperCase();
+    setValue(`code${index + 1}`, value);
+    registerOnChange({ target: { name: `code${index + 1}`, value } });
+
     if (value.length === 1 && index < 5) {
       inputRefs.current[index + 1].focus();
     }
   };
+  console.log("Verification - package data", packageData);
+  console.log("verification - redirect to ", redirectTo);
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !e.target.value && index > 0) {
@@ -68,14 +75,18 @@ const VerificationForm = ({ email }) => {
         data.expires_in * 1000
       );
 
-      if (packageData) {
-        navigate("/checkout", { state: { packageData } });
+      if (redirectTo && packageData) {
+        navigate(redirectTo, { state: { packageData } });
       } else {
         navigate("/");
       }
     },
     onError: (error) => {
       console.error("Verification Error Details:", error);
+      setError("verification", {
+        type: "manual",
+        message: "Invalid verification code.",
+      });
     },
   });
 
@@ -122,8 +133,8 @@ const VerificationForm = ({ email }) => {
           } = register(`code${num}`, {
             required: "This field is required",
             pattern: {
-              value: /^[0-9a-zA-Z]$/,
-              message: "Only alphanumeric characters are allowed",
+              value: /^[0-9A-Z]$/,
+              message: "Only uppercase alphanumeric characters are allowed",
             },
           });
 
@@ -131,7 +142,7 @@ const VerificationForm = ({ email }) => {
             <input
               key={num}
               type="text"
-              inputMode="numeric"
+              inputMode="text"
               autoComplete="one-time-code"
               maxLength="1"
               {...rest}
@@ -140,27 +151,26 @@ const VerificationForm = ({ email }) => {
                 inputRefs.current[index] = el;
               }}
               onChange={(e) => {
-                registerOnChange(e);
-                handleChange(e, index);
+                handleChange(e, index, registerOnChange);
               }}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className={`w-14 h-12 text-center border-b-2 text-black border-gray-300 focus:border-blue-500 focus:outline-none mx-3 text-lg ${
+              className={`w-14 h-12 text-center border-b-2 uppercase text-black border-gray-300 focus:border-blue-500 focus:outline-none mx-3 text-lg ${
                 errors[`code${num}`] ? "border-red-500" : "border-gray-300"
               }`}
             />
           );
         })}
       </div>
-      {errors.code1 ||
-      errors.code2 ||
-      errors.code3 ||
-      errors.code4 ||
-      errors.code5 ||
-      errors.code6 ? (
+      {(errors.code1 ||
+        errors.code2 ||
+        errors.code3 ||
+        errors.code4 ||
+        errors.code5 ||
+        errors.code6) && (
         <p className="text-red-500 text-sm text-center mb-4">
           Please enter a valid verification code.
         </p>
-      ) : null}
+      )}
 
       <div className="flex justify-center">
         <CustomButton
@@ -180,7 +190,7 @@ const VerificationForm = ({ email }) => {
 
       {/* Resend Code Section */}
       <div className="text-center mt-6">
-        <p className="text-gray-50 text-sm ">
+        <p className="text-gray-50 text-sm">
           Didn't receive a code?{" "}
           <button
             type="button"

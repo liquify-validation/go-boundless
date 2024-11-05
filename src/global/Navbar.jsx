@@ -21,6 +21,8 @@ import USFlag from "../assets/countries/USA.svg";
 import CustomButton from "../ui/CustomButton";
 import { useAuth } from "../context/AuthContext";
 
+// TO DO - Navbar centered on non authenticated users
+
 const profileMenuItems = [
   { label: "Account Settings", icon: Cog6ToothIcon, link: "/account-settings" },
   { label: "Go Points", icon: UserCircleIcon, link: "/go-points" },
@@ -28,8 +30,6 @@ const profileMenuItems = [
   { label: "Order History", icon: InboxArrowDownIcon, link: "/order-history" },
   { label: "Sign Out", icon: PowerIcon, isDanger: true, action: "logout" },
 ];
-
-// TO DO - STYLE LOGOUT BUTTON
 
 function ProfileMenu() {
   const { logoutUser } = useAuth();
@@ -115,7 +115,7 @@ const Navbar = () => {
           id="navbar-menu"
           className="hidden overflow-hidden transition-all duration-300 basis-full grow sm:grow-0 sm:basis-auto sm:block sm:order-2"
         >
-          <ul className="flex flex-col gap-8 mt-5 sm:flex-row sm:items-center sm:mt-0 sm:pl-24">
+          <ul className="flex flex-col gap-8 mt-5 sm:flex-row sm:items-center sm:mt-0 ">
             <li>
               <Link
                 className="font-medium text-white hover:text-primary focus:outline-none"

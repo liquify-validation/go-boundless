@@ -1,19 +1,44 @@
-import React from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import CustomButton from "../ui/CustomButton";
-
-// TO DO - ADD CONTACT FORM API LOGIC
+import { useSendEnquiry } from "../hooks/useEnquiry";
 
 const ContactForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const {
+    mutate: sendEnquiryMutation,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useSendEnquiry();
+
+  const [successMessage, setSuccessMessage] = useState("");
+
   const onSubmit = (data) => {
-    console.log(data);
-    // API call logic will go here
+    const enquiryData = {
+      first_name: data.firstName,
+      last_name: data.lastName,
+      email: data.email,
+      subject: data.subject,
+      message: data.message,
+    };
+
+    sendEnquiryMutation(enquiryData, {
+      onSuccess: () => {
+        setSuccessMessage("Your enquiry has been sent successfully!");
+        reset();
+      },
+      onError: () => {
+        setSuccessMessage("");
+      },
+    });
   };
 
   return (

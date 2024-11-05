@@ -6,6 +6,10 @@ import ReactFlagsSelect from "react-flags-select";
 import { GoBoundlessLogoGreen } from "../assets";
 import { useEffect, useState } from "react";
 
+// TO DO - Add password visibility icons
+// TO DO - Style date of birth make it more DOB friendly
+// TO DO - add link to terms of service and privacy policy
+
 const SignupForm = () => {
   const {
     register,
@@ -44,9 +48,10 @@ const SignupForm = () => {
       email: data.email,
       password: data.password,
       country: data.country,
+      birthdate: data.birthdate,
+      marketing_emails: data.marketingEmails,
     };
 
-    console.log("Registering User:", userData);
     setUserEmail(data.email);
     registerUserMutation(userData);
   };
@@ -59,6 +64,9 @@ const SignupForm = () => {
     }
   }, [isSuccess, navigate, userEmail, redirectTo, packageData]);
 
+  console.log("Sign up - package data", packageData);
+  console.log("Sign up - redirect to ", redirectTo);
+
   useEffect(() => {
     if (isError) {
       console.error("Registration Error Details:", error);
@@ -70,7 +78,7 @@ const SignupForm = () => {
       <img className="mx-auto mb-4" src={GoBoundlessLogoGreen} alt="Logo" />
       <h2 className="text-4xl font-bold mb-3 text-center">Register</h2>
       <p className="text-gray-50 text-sm text-center mb-14">
-        Sign up with us to get the best deals on eSIMs
+        Sign up with us and go boundless.
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -169,6 +177,24 @@ const SignupForm = () => {
           )}
         </div>
 
+        {/* Date of Birth */}
+        <div className="relative">
+          <input
+            type="date"
+            {...register("birthdate")}
+            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            max={new Date().toISOString().split("T")[0]} // Prevent selecting future dates
+          />
+          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+            Date of Birth (Optional)
+          </label>
+          {errors.birthdate && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.birthdate.message}
+            </p>
+          )}
+        </div>
+
         {/* Country of Residence */}
         <div className="relative">
           <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transform -translate-y-6 scale-75 origin-left">
@@ -194,6 +220,41 @@ const SignupForm = () => {
               {errors.country.message}
             </p>
           )}
+        </div>
+
+        {/* Marketing Preferences */}
+        <div className="flex items-center mb-4 ml-2 pt-1 ">
+          <input
+            type="checkbox"
+            id="marketingEmails"
+            {...register("marketingEmails")}
+            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+          />
+          <label
+            htmlFor="marketingEmails"
+            className="ml-2 block text-sm text-gray-50"
+          >
+            Select this box to receive updates and marketing. You can change
+            your preferences at any time as per our Privacy Policy.
+          </label>
+        </div>
+
+        <div className="flex items-center mb-4 ml-2 pt-1 ">
+          <input
+            type="checkbox"
+            id="termsAndConditions"
+            {...register("termsAndConditions", {
+              required: "You must agree to the Terms and Conditions",
+            })}
+            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+          />
+          <label
+            htmlFor="marketingEmails"
+            className="ml-2 block text-sm text-gray-50"
+          >
+            By creating an account, I agree to the Terms of Service and Privacy
+            Policy. I may unsubscribe at any time.
+          </label>
         </div>
 
         {/* Error Message */}

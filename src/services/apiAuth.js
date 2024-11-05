@@ -1,7 +1,8 @@
 import axios from "axios";
+import { getStoredToken, setStoredToken } from "../utilities/helpers";
 
 const apiClient = axios.create({
-  baseURL: "http://localhost:5005/auth",
+  baseURL: "http://127.0.0.1:5005/auth",
 
   headers: {
     "Content-Type": "application/json",
@@ -16,6 +17,29 @@ export const registerUser = async (userData) => {
 export const loginUser = async (credentials) => {
   const response = await apiClient.post("/login", credentials);
   return response.data;
+};
+
+export const refreshAccessToken = async () => {
+  const refreshToken = getStoredToken("refreshToken");
+  if (!refreshToken) return null;
+
+  try {
+    const response = await axios.post("/refresh", null, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+    const newAccessToken = response.data.access_token;
+    setStoredToken("userAccessToken", newAccessToken, 900);
+    return newAccessToken;
+  } catch (error) {
+    console.error("Failed to refresh access token:", error);
+    localStorage.removeItem("userAccessToken");
+    localStorage.removeItem("userAccessTokenExpiresAt");
+    localStorage.removeItem("refreshToken");
+    return null;
+  }
 };
 
 export const forgotPassword = async (email) => {
@@ -41,11 +65,31 @@ export const resendVerificationCode = async (emailData) => {
 };
 
 export const getUserDetails = async () => {
-  const response = await apiClient.post("/user");
+  const accessToken = getStoredToken("userAccessToken");
+  const userId = getStoredToken("userId");
+  const response = await apiClient.post(
+    "/user",
+    { user_id: userId },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
   return response.data;
 };
 
 export const updateUserDetails = async (updatedData) => {
-  const response = await apiClient.post("/edit-user", updatedData);
+  const accessToken = getStoredToken("userAccessToken");
+  const userId = getStoredToken("userId");
+  const response = await apiClient.post(
+    "/edit-user",
+    { ...updatedData, user_id: userId },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
   return response.data;
 };

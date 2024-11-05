@@ -92,7 +92,7 @@ const Faqs = ({ title, subtext, faqs }) => {
         {/* Footer */}
         <p className="font-inter mx-auto mt-12 text-center text-base text-gray-150">
           Can’t find the answer you’re looking for? Reach out to our{" "}
-          <a href="#" className="text-[#B3FF4A] font-bold">
+          <a href="/contact-us" className="text-[#B3FF4A] font-bold">
             customer support team.
           </a>
         </p>

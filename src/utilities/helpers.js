@@ -1,22 +1,27 @@
 export const getStoredToken = (tokenKey = "accessToken") => {
   const token = localStorage.getItem(tokenKey);
-  const expiresAt = localStorage.getItem(`${tokenKey}ExpiresAt`);
+  if (!token) return null;
 
-  if (!token || !expiresAt) return null;
+  if (tokenKey !== "refreshToken") {
+    const expiresAt = localStorage.getItem(`${tokenKey}ExpiresAt`);
+    if (!expiresAt) return null;
 
-  if (Date.now() > Number(expiresAt)) {
-    localStorage.removeItem(tokenKey);
-    localStorage.removeItem(`${tokenKey}ExpiresAt`);
-    return null;
+    if (Date.now() > Number(expiresAt)) {
+      localStorage.removeItem(tokenKey);
+      localStorage.removeItem(`${tokenKey}ExpiresAt`);
+      return null;
+    }
   }
 
   return token;
 };
 
 export const setStoredToken = (tokenKey = "accessToken", token, expiresIn) => {
-  const expiresAt = Date.now() + expiresIn * 1000;
   localStorage.setItem(tokenKey, token);
-  localStorage.setItem(`${tokenKey}ExpiresAt`, expiresAt);
+  if (expiresIn) {
+    const expiresAt = Date.now() + expiresIn * 1000;
+    localStorage.setItem(`${tokenKey}ExpiresAt`, expiresAt);
+  }
 };
 
 export const validateEmail = (email) => {

@@ -15,8 +15,8 @@ const ProductCard = ({ packageData }) => {
 
   const dataPackage = packageData || {
     price: "loading..",
-    size: "loading..",
-    sizeUnit: "loading..",
+    size: "1",
+    sizeUnit: "GB",
     expiry: "loading..",
     expiryUnit: "loading..",
   };

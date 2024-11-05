@@ -2,12 +2,14 @@ import React, { useEffect } from "react";
 import DataPlanCard from "../components/DataPlanCard";
 import UsedDataCard from "../components/UsedDataCard";
 import TopUpCard from "../components/TopUpCard";
-import { useUserDetails } from "../hooks/useUserDetails";
+import { useUserDetails } from "../hooks/Auth/useUserDetails";
 import { useCustomerActivations } from "../hooks/useCustomerActivations";
 
-const ManagePlanPage = () => {
+const ManagePlan = () => {
   const { data: user } = useUserDetails();
   const { data: activations } = useCustomerActivations();
+
+  console.log("activations", activations);
 
   const activatedItem = activations?.activatedItems?.[0];
 
@@ -55,4 +57,4 @@ const ManagePlanPage = () => {
   );
 };
 
-export default ManagePlanPage;
+export default ManagePlan;

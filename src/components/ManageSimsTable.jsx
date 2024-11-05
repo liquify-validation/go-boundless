@@ -1,6 +1,8 @@
 import React from "react";
 import { useCustomerActivations } from "../hooks/useCustomerActivations";
+import WarningCard from "./WarningCard";
 import { Link } from "react-router-dom";
+import { WorldMapBg } from "../assets";
 
 const ManageSimsTable = () => {
   const { data, isLoading, isError, error } = useCustomerActivations();
@@ -10,14 +12,44 @@ const ManageSimsTable = () => {
   }
 
   if (isError) {
-    return (
-      <p className="text-center text-red-500">
-        Error loading activated items: {error.message}
-      </p>
-    );
+    const errorMessage = error.data?.error || error.message;
+
+    if (errorMessage === "No product found. Please add a product.") {
+      return (
+        <section
+          className="relative bg-contain bg-no-repeat bg-center py-36"
+          style={{ backgroundImage: `url(${WorldMapBg})` }}
+        >
+          <WarningCard
+            title="No Product Found"
+            message="You currently have no products."
+            buttonText="Add a Product"
+            buttonLink="/data-packages"
+          />
+        </section>
+      );
+    } else {
+      return (
+        <WarningCard
+          title="Error"
+          message={`Error loading activated items: ${errorMessage}`}
+        />
+      );
+    }
   }
 
   const activatedItems = data?.activatedItems || [];
+
+  if (activatedItems.length === 0) {
+    return (
+      <WarningCard
+        title="No Activated Items"
+        message="You currently have no activated items."
+        buttonText="Add a Product"
+        buttonLink="/data-packages"
+      />
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto py-12 px-8 bg-white rounded-xl shadow-lg mb-32 mt-16">

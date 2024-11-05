@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { authenticate } from "../services/apiStore";
-import { loginUser } from "../services/apiAuth";
+import { loginUser, refreshAccessToken } from "../services/apiAuth";
 import { getStoredToken, setStoredToken } from "../utilities/helpers";
 
 const AuthContext = createContext();
@@ -10,9 +10,11 @@ export const AuthProvider = ({ children }) => {
   const [authData, setAuthData] = useState(() => {
     const storeToken = getStoredToken("storeAccessToken");
     const userToken = getStoredToken("userAccessToken");
+    const refreshToken = getStoredToken("refreshToken");
     return {
       storeAccessToken: storeToken || null,
       userAccessToken: userToken || null,
+      refreshToken: refreshToken || null,
     };
   });
 
@@ -44,8 +46,12 @@ export const AuthProvider = ({ children }) => {
       setAuthData((prev) => ({
         ...prev,
         userAccessToken: data.access_token,
+        refreshToken: data.refresh_token,
+        userId: data.user_id,
       }));
       setStoredToken("userAccessToken", data.access_token, data.expires_in);
+      setStoredToken("refreshToken", data.refresh_token);
+      setStoredToken("userId", data.user_id);
       setErrorMessage(null);
     },
     onError: (error) => {
@@ -79,13 +85,48 @@ export const AuthProvider = ({ children }) => {
     }
 
     const userToken = getStoredToken("userAccessToken");
+    const refreshToken = getStoredToken("refreshToken");
     if (userToken) {
       setAuthData((prev) => ({
         ...prev,
         userAccessToken: userToken,
+        refreshToken: refreshToken,
       }));
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      authData.userAccessToken &&
+      localStorage.getItem("userAccessTokenExpiresAt")
+    ) {
+      const expiresAt = Number(
+        localStorage.getItem("userAccessTokenExpiresAt")
+      );
+      const now = Date.now();
+      const timeLeft = expiresAt - now;
+
+      const refreshTime = timeLeft - 1000 * 60 * 2;
+
+      if (refreshTime > 0) {
+        const timeout = setTimeout(async () => {
+          const newAccessToken = await refreshAccessToken();
+          if (!newAccessToken) {
+            logoutUser();
+          }
+        }, refreshTime);
+
+        return () => clearTimeout(timeout);
+      } else {
+        (async () => {
+          const newAccessToken = await refreshAccessToken();
+          if (!newAccessToken) {
+            logoutUser();
+          }
+        })();
+      }
+    }
+  }, [authData.userAccessToken]);
 
   useEffect(() => {
     if (

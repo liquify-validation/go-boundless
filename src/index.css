@@ -100,3 +100,7 @@ p {
   background-color: #02150f;
   border-radius: 10px;
 }
+
+.uppercase-input {
+  text-transform: uppercase;
+}

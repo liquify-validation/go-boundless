@@ -2,6 +2,8 @@ import { fetchWithAuth } from "../utilities/fetchWithAuth";
 
 const ApiUrl = import.meta.env.VITE_API_URL;
 
+// TO DO - Convert to axios
+
 // Authenticate Store
 export const authenticate = async () => {
   const response = await fetch(`${ApiUrl}/store/authenticate`, {
@@ -68,11 +70,19 @@ export const createPaymentIntent = async (paymentData) => {
 // Get users sims
 export const getCustomerActivations = async () => {
   const url = `${ApiUrl}/store/customer-activations`;
-  return await fetchWithAuth(url, { method: "POST" }, "storeAccessToken");
+  return await fetchWithAuth(url, { method: "POST" }, "userAccessToken");
 };
 
 // Get users sim
 export const getActivatedItem = async (itemUid) => {
   const url = `${ApiUrl}/store/activated-items/${itemUid}`;
   return await fetchWithAuth(url, { method: "POST" }, "storeAccessToken");
+};
+
+export const sendEnquiry = async (enquiryData) => {
+  const url = `${ApiUrl}/enquiries/enquiry`;
+  return await fetchWithAuth(url, {
+    method: "POST",
+    body: JSON.stringify(enquiryData),
+  });
 };
