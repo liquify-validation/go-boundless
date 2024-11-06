@@ -37,6 +37,7 @@ const PaymentForm = () => {
   const { data: userDetails, isLoading, isError } = useUserDetails();
 
   const [selectedPayment, setSelectedPayment] = useState("creditCard");
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [amount, setAmount] = useState(0);
   const [selectedPackageId, setSelectedPackageId] = useState("");
 
@@ -70,7 +71,6 @@ const PaymentForm = () => {
       try {
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
-        console.log("ip fetched?", data);
         setUserIp(data.ip);
         setUserCountry(data.country_name);
       } catch (error) {
@@ -134,6 +134,8 @@ const PaymentForm = () => {
       customerUid: dentUid || "",
     };
 
+    setIsPaymentProcessing(true);
+
     createPaymentIntent(paymentData, {
       onSuccess: async (data) => {
         const clientSecret = data.client_secret;
@@ -143,16 +145,23 @@ const PaymentForm = () => {
 
         if (confirmError) {
           console.error(confirmError);
+          toast.error(confirmError.message);
+          setIsPaymentProcessing(false);
           return;
         }
 
         if (paymentIntent.status === "succeeded") {
+          setIsPaymentProcessing(false);
           navigate("/payment-success");
+        } else {
+          setIsPaymentProcessing(false);
+          toast.error("Payment was not successful. Please try again.");
         }
       },
       onError: (error) => {
         console.error("Payment failed:", error);
         toast.error("Payment failed. Please try again.");
+        setIsPaymentProcessing(false);
       },
     });
   };

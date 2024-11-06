@@ -46,8 +46,6 @@ const VerificationForm = ({ email }) => {
       inputRefs.current[index + 1].focus();
     }
   };
-  console.log("Verification - package data", packageData);
-  console.log("verification - redirect to ", redirectTo);
 
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace" && !e.target.value && index > 0) {
@@ -62,8 +60,6 @@ const VerificationForm = ({ email }) => {
     error,
   } = useVerifyCode({
     onSuccess: (data) => {
-      console.log("Verification Successful");
-
       setAuthData((prev) => ({
         ...prev,
         userAccessToken: data.access_token,

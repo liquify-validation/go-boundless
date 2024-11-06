@@ -20,10 +20,8 @@ export const fetchWithAuth = async (
 
   try {
     let response = await fetch(url, { ...options, headers });
-    console.log("Initial fetch response status:", response.status);
 
     if (response.status === 401) {
-      console.log("Received 401 response, attempting to refresh token");
       if (tokenKey === "storeAccessToken") {
         const authResponse = await authenticate();
         const newAccessToken = authResponse.accessToken;

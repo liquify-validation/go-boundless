@@ -2,7 +2,7 @@ import axios from "axios";
 import { getStoredToken, setStoredToken } from "../utilities/helpers";
 
 const apiClient = axios.create({
-  baseURL: "http://127.0.0.1:5005/auth",
+  baseURL: "http://backend.goboundlessnow.com/auth",
 
   headers: {
     "Content-Type": "application/json",

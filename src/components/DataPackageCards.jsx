@@ -39,7 +39,6 @@ const DataPackageCards = ({
           packageData,
         },
       });
-      console.log("Data package cards - package data", packageData);
     }
   };
   const {

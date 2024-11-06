@@ -30,8 +30,6 @@ function Homepage() {
     );
   }
 
-  console.log("inventory", data);
-
   return (
     <>
       <div>

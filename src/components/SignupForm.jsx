@@ -36,7 +36,6 @@ const SignupForm = () => {
   } = useRegister();
 
   const onSubmit = (data) => {
-    console.log("Form Data Submitted:", data);
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "manual",

@@ -109,6 +109,56 @@ const Navbar = () => {
           <img src={GoBoundlessLogoGreen} alt="Brand Logo" />
         </Link>
 
+        {/* Center Menu (Desktop Only) */}
+        <div className="hidden sm:flex flex-1 justify-center">
+          <ul className="flex gap-8 items-center">
+            <li>
+              <Link
+                className="font-medium text-white hover:text-primary focus:outline-none"
+                to="/"
+              >
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="font-medium text-white hover:text-primary focus:outline-none"
+                to="/data-packages"
+              >
+                Data
+              </Link>
+            </li>
+            {isAuthenticated && (
+              <>
+                <li>
+                  <Link
+                    className="font-medium text-white hover:text-primary focus:outline-none"
+                    to="/manage"
+                  >
+                    Manage
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="font-medium text-white hover:text-primary focus:outline-none"
+                    to="/profile"
+                  >
+                    Profile
+                  </Link>
+                </li>
+              </>
+            )}
+            <li>
+              <Link
+                className="font-medium text-white hover:text-primary focus:outline-none"
+                to="/contact-us"
+              >
+                Contact Us
+              </Link>
+            </li>
+          </ul>
+        </div>
+
         {/* Hamburger Menu Icon */}
         <div className="sm:hidden">
           <button
@@ -138,11 +188,11 @@ const Navbar = () => {
       {menuOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 z-50"
-          onClick={() => setMenuOpen(false)} // Close menu when clicking outside
+          onClick={() => setMenuOpen(false)}
         >
           <div
             className="flex flex-col items-center justify-center h-full"
-            onClick={(e) => e.stopPropagation()} // Prevent click from closing menu when clicking on the menu itself
+            onClick={(e) => e.stopPropagation()}
           >
             <ul className="flex flex-col items-center gap-6">
               <li>

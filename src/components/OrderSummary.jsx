@@ -13,8 +13,6 @@ const OrderSummary = ({ packageData }) => {
     quantity: 1,
   };
 
-  console.log("Package data order Summary", packageData);
-
   const [orderItems, setOrderItems] = useState([
     {
       id: packageData?.id || defaultPackage.id,
