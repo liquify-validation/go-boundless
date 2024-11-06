@@ -1,7 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { SearchBar, CountryList, SupportedHero } from "../components";
 import { useCountries } from "../hooks/useCountries";
 import { WorldMapBg } from "../assets";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { toast } from "react-toastify";
 
 const SupportedCountries = () => {
   const { data, error, isLoading } = useCountries();
@@ -17,10 +19,19 @@ const SupportedCountries = () => {
     );
   }, [data, searchTerm]);
 
-  if (isLoading) return <div>Loading Supported Countries...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error loading supported countries: ${error.message}`);
+    }
+  }, [error]);
 
-  console.log("countries", data);
+  if (isLoading) {
+    return (
+      <div className="relative">
+        <LoadingSpinner text="Loading Supported Countries..." />
+      </div>
+    );
+  }
 
   const handleSearch = (term) => {
     setSearchTerm(term);

@@ -24,14 +24,14 @@ export const refreshAccessToken = async () => {
   if (!refreshToken) return null;
 
   try {
-    const response = await axios.post("/refresh", null, {
+    const response = await apiClient.post("/refresh", null, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${refreshToken}`,
       },
     });
     const newAccessToken = response.data.access_token;
-    setStoredToken("userAccessToken", newAccessToken, 900);
+    setStoredToken("userAccessToken", newAccessToken, 900); // Use the correct expiresIn value
     return newAccessToken;
   } catch (error) {
     console.error("Failed to refresh access token:", error);

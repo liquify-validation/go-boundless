@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -12,11 +13,15 @@ class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error("ErrorBoundary caught an error:", error, errorInfo);
+
+    toast.error(`An unexpected error occurred: ${error.message}`, {
+      position: toast.POSITION.TOP_RIGHT,
+    });
   }
 
   render() {
     if (this.state.hasError) {
-      return <div>Something went wrong: {this.state.error.message}</div>;
+      return null;
     }
 
     return this.props.children;

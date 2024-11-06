@@ -27,6 +27,9 @@ import DataPackages from "./pages/DataPackages";
 import TermsOfUse from "./pages/TermsOfUse";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ManagePlan from "./pages/ManagePlan";
+import { ScrollToTop } from "./components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 
@@ -34,6 +37,7 @@ const App = () => {
   return (
     <Elements stripe={stripePromise}>
       <Router>
+        <ScrollToTop />
         <Layout>
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -75,7 +79,7 @@ const App = () => {
               }
             />
             <Route
-              path="/manage/:itemId"
+              path="/manage-plan/:itemId"
               element={
                 <ProtectedRoute>
                   <ManagePlan />
@@ -126,6 +130,18 @@ const App = () => {
             />
           </Routes>
         </Layout>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </Router>
     </Elements>
   );

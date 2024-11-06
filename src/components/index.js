@@ -39,6 +39,7 @@ import TopUpCard from "./TopUpCard";
 import WarningCard from "./WarningCard";
 import PrivacyPolicy from "./PrivacyPolicySection";
 import TermsOfUseSection from "./TermsOfUseSection";
+import ScrollToTop from "./ScrollToTop";
 
 export {
   ContactForm,
@@ -82,4 +83,5 @@ export {
   WarningCard,
   PrivacyPolicy,
   TermsOfUseSection,
+  ScrollToTop,
 };

@@ -1,5 +1,4 @@
 function TermsOfUseSection() {
-  // TO DO - Check domain link
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Terms of Use</h1>
@@ -12,7 +11,7 @@ function TermsOfUseSection() {
           "us," or "our"). These Terms of Use ("Terms") govern your access to
           and use of our website{" "}
           <a
-            href="http://www.goboundless.com"
+            href="http://www.goboundlessnow.com"
             className="text-blue-600 underline"
             target="_blank"
             rel="noopener noreferrer"

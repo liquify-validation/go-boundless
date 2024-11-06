@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import CustomButton from "../ui/CustomButton";
 import { useUserDetails } from "../hooks/Auth/useUserDetails";
 import { useUpdateUserDetails } from "../hooks/Auth/useUpdateUserDetails";
-
-// TO DO - ADD proper success message
+import { toast } from "react-toastify";
+import LoadingSpinner from "./LoadingSpinner";
 
 const ProfileForm = () => {
   const { data: user, isLoading, isError, error } = useUserDetails();
@@ -27,18 +27,23 @@ const ProfileForm = () => {
   } = useUpdateUserDetails();
 
   const onSubmit = (data) => {
-    setFormError("");
     updateUserMutation(data, {
       onSuccess: () => {
-        alert("Profile updated successfully.");
+        toast.success("Profile updated successfully.");
       },
       onError: (error) => {
-        setFormError(
-          error.response?.data?.message || "Failed to update profile."
-        );
+        const errorMessage =
+          error.response?.data?.message || "Failed to update profile.";
+        toast.error(errorMessage);
       },
     });
   };
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(`Error loading user data: ${error.message}`);
+    }
+  }, [isError, error]);
 
   useEffect(() => {
     if (user) {
@@ -95,6 +100,7 @@ const ProfileForm = () => {
 
         {/* Surname */}
         <div className="relative">
+          {(isLoading || isUpdating) && <LoadingSpinner text="Loading..." />}
           <input
             type="text"
             {...register("lastName", { required: "Surname is required" })}

@@ -1,38 +1,54 @@
 import React from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
-const UsedDataCard = ({ usedData, totalData, expiryDate, daysUntilExpiry }) => {
-  const percentageUsed = (usedData / totalData) * 100;
+const UsedDataCard = ({
+  availableBalance,
+  totalData,
+  sizeUnit,
+  expiryDate,
+  daysUntilExpiry,
+}) => {
+  const percentageAvailable =
+    totalData > 0 ? (availableBalance / totalData) * 100 : 0;
+
+  const formatDataValue = (value) => {
+    return value % 1 === 0 ? value.toFixed(0) : value.toFixed(2);
+  };
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center relative">
-      {/* Progress Circle */}
-      <div className="relative">
-        <div className="w-32 h-32 rounded-full border-4 border-gray-200 flex items-center justify-center">
-          <div
-            className="absolute top-0 left-0 w-32 h-32 rounded-full"
-            style={{
-              clipPath: "inset(0% 0% 0% 50%)",
-              backgroundColor: "#4F46E5",
-              transform: `rotate(${(percentageUsed / 100) * 360}deg)`,
-            }}
-          ></div>
-          <div className="text-center text-xl font-bold">
-            {usedData} / {totalData} GB
-          </div>
+    <div className="w-full max-w-sm rounded-[25px] shadow-md overflow-hidden endpoint-card relative flex flex-col">
+      {/* Title and Positioning */}
+      <div className="pr-4 pl-4 flex justify-between items-center py-2">
+        <h3 className="text-xl font-bold mt-2">Data Usage</h3>
+      </div>
+
+      {/* Circular Progress */}
+      <div className="p-8 flex flex-col items-center">
+        <div className="w-48 h-48 mb-4">
+          <CircularProgressbar
+            value={percentageAvailable}
+            text={`${formatDataValue(availableBalance)} ${sizeUnit}`}
+            styles={buildStyles({
+              textSize: "1rem",
+              pathColor: "#b3ff4a",
+              textColor: "#fff",
+              trailColor: "#fff",
+            })}
+          />
         </div>
       </div>
 
-      {/* Bottom Left: Expiry Date */}
-      <div className="absolute bottom-4 left-4">
-        <p className="text-gray-600">
-          Expires on {new Date(expiryDate).toLocaleDateString()}
-        </p>
-      </div>
+      {/* Divider */}
+      <div className="border-t-2 mx-3 border-gray-300"></div>
 
-      {/* Bottom Right: Days Until Expiry */}
-      <div className="absolute bottom-4 right-4">
-        <p className="text-gray-600">
-          Expires in {daysUntilExpiry} {daysUntilExpiry > 1 ? "days" : "day"}
+      {/* Expiry Information */}
+      <div className="p-4 w-full flex justify-between">
+        <p className="text-left text-gray-50 text-sm">
+          Expires on: {new Date(expiryDate).toLocaleDateString()}
+        </p>
+        <p className="text-right text-red-500 font-bold text-sm">
+          Expires in: {daysUntilExpiry} days
         </p>
       </div>
     </div>

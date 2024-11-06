@@ -5,7 +5,6 @@ import Button from "../ui/CustomButton";
 import { IphoneImage, EsimsBg } from "../assets";
 
 const HowItWorks = () => {
-  // TO DO - CENTER FEATURES AND LESSEN GAP
   return (
     <section
       className="relative bg-contain pt-20 bg-center bg-no-repeat"
@@ -27,14 +26,14 @@ const HowItWorks = () => {
       </div>
 
       {/* How it works cards */}
-      <div className="px-2 py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl md:px-24 lg:px-2 ">
+      <div className=" py-2 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-2xl  ">
         <HowItWorksCards data={howItWorksData} />
       </div>
 
       {/* Button at the Bottom */}
-      <div className="text-center ">
+      {/* <div className="text-center ">
         <Button text="See How it Works" />
-      </div>
+      </div> */}
     </section>
   );
 };

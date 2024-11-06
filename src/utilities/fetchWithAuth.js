@@ -20,8 +20,10 @@ export const fetchWithAuth = async (
 
   try {
     let response = await fetch(url, { ...options, headers });
+    console.log("Initial fetch response status:", response.status);
 
     if (response.status === 401) {
+      console.log("Received 401 response, attempting to refresh token");
       if (tokenKey === "storeAccessToken") {
         const authResponse = await authenticate();
         const newAccessToken = authResponse.accessToken;
@@ -44,7 +46,15 @@ export const fetchWithAuth = async (
     }
 
     if (!response.ok) {
-      const errorData = await response.json();
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (jsonError) {
+        console.error("Error parsing JSON response:", jsonError);
+        errorData = {
+          message: `API request failed with status ${response.status}`,
+        };
+      }
       const error = new Error(
         errorData.error || errorData.message || "API request failed"
       );

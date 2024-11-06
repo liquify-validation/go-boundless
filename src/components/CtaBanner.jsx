@@ -2,6 +2,7 @@ import { CtaBg } from "../assets";
 import CustomButton from "../ui/CustomButton";
 
 const CtaBanner = () => {
+  // TO DO - FULL WIDTH on larger screens
   return (
     <section
       className="relative bg-cover bg-center bg-white w-full"

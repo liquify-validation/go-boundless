@@ -7,8 +7,6 @@ const CheckoutDataPackage = ({ packageData }) => {
     price: "Price Loading...",
   };
 
-  console.log("packageData", packageData);
-
   return (
     <div className=" p-6 rounded-lg shadow-md mb-6">
       <h2 className="text-2xl font-semibold mb-2">{dataPackage.name}</h2>

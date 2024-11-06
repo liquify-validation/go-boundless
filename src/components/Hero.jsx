@@ -1,5 +1,6 @@
 import React from "react";
 import Gallery from "./Gallery";
+import CustomButton from "../ui/CustomButton";
 
 const Hero = () => {
   return (
@@ -18,14 +19,21 @@ const Hero = () => {
             across continents, ensuring you remain connected no matter where
             life takes you. Embrace financial freedom with the option to
             purchase SIMs using cryptocurrencies, making transactions swift and
-            secure. At Go Boundless, we blend cutting-edge technology with a
+            secure. <br></br>
+            <br></br>At Go Boundless, we blend cutting-edge technology with a
             commitment to your privacy, offering a mobile experience that’s both
             expansive and safeguarded.
           </p>
           <div className="mt-5 lg:mt-12">
-            <button className="px-6 py-3 text-lg font-medium text-black bg-primary rounded-lg hover:bg-primary-dark">
-              See Plans
-            </button>
+            <CustomButton
+              text="See Plans"
+              link="/data-packages"
+              textSize="text-lg font-medium"
+              bgColor="bg-primary hover:bg-primary-dark"
+              textColor="text-black"
+              px="px-6"
+              py="py-3"
+            />
           </div>
         </div>
 

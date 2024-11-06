@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { FaStar, FaRegStar, FaCircle } from "react-icons/fa";
 import {
@@ -12,6 +12,8 @@ import {
 
 const ProductCard = ({ packageData }) => {
   const [activeTab, setActiveTab] = useState("Features");
+  const contentRef = useRef(null);
+  const [maxContentHeight, setMaxContentHeight] = useState(0);
 
   const dataPackage = packageData || {
     price: "loading..",
@@ -37,7 +39,7 @@ const ProductCard = ({ packageData }) => {
   ];
 
   const description = [
-    `Buy an international eSIM and never pay for roaming again. Connect to the internet for ${dataPackage.expiry} ${dataPackage.expiryUnit} and stay in touch with your family and friends.`,
+    `Buy an international eSIM and never pay for roaming again. Connect to the internet for less and stay in touch with your family and friends.`,
     `It's easy to start using our services. After your purchase, you will receive a QR code in your email. Scan it with your smartphone camera, install, and enjoy a fast and stable Internet connection.`,
   ];
 
@@ -69,8 +71,22 @@ const ProductCard = ({ packageData }) => {
     return stars;
   };
 
+  useEffect(() => {
+    const heights = [];
+
+    ["Features", "Description", "Technical Specs"].forEach((tab) => {
+      setActiveTab(tab);
+      const contentHeight = contentRef.current.offsetHeight;
+      heights.push(contentHeight);
+    });
+
+    setMaxContentHeight(Math.max(...heights));
+
+    setActiveTab("Features");
+  }, []);
+
   return (
-    <div className="max-w-xl bg-opacity-10 shadow-md rounded-lg p-6 endpoint-card">
+    <div className="max-w-xl bg-opacity-10 shadow-md rounded-lg p-6 endpoint-card h-full flex flex-col">
       {/* Top Section */}
       <div className="flex justify-between items-center mb-4">
         {/* Left: Subtitle and Title */}
@@ -106,7 +122,11 @@ const ProductCard = ({ packageData }) => {
       </div>
 
       {/* Content Area */}
-      <div className="pt-2 pb-2">
+      <div
+        className="pt-2 pb-2 flex-grow"
+        style={{ minHeight: `${maxContentHeight}px` }}
+        ref={contentRef}
+      >
         {activeTab === "Features" && (
           <ul className="space-y-2">
             {features.map((feature, index) => (

@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import DataPackageCards from "./DataPackageCards";
 import { GradientDot } from "../assets";
 import { useInventory } from "../hooks/useInventory";
+import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "react-toastify";
 
 const DataPackagesSection = () => {
   const { data, error, isLoading } = useInventory();
 
-  if (isLoading) {
-    return <div>Loading Data Packages...</div>;
-  }
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error loading data packages: ${error.message}`);
+    }
+  }, [error]);
 
-  if (error) {
-    return <div>Error loading data packages: {error.message}</div>;
+  if (isLoading) {
+    return (
+      <div className="relative">
+        <LoadingSpinner text="Loading Data Packages..." />
+      </div>
+    );
   }
 
   const getCountries = (countrySet) => {
@@ -24,8 +32,6 @@ const DataPackagesSection = () => {
       .map((item) => item.includedCountries)
       .join(", ");
   };
-
-  console.log("inventory data", data);
 
   const packages =
     data?.items

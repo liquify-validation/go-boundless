@@ -9,8 +9,6 @@ import {
 } from "../assets";
 import { GradientDot, ThailandImage } from "../assets";
 
-// TO DO - EQUAL HEIGHTS OF HERO IMAGE AND PRODUCT CARD
-
 function DataPackages() {
   const sampleProduct = {
     subtitle: "Global Data eSim",
@@ -60,13 +58,13 @@ function DataPackages() {
       </div>
 
       {/* Two-Column Layout */}
-      <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 px-4 mt-16">
+      <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8 px-4 mt-16">
         {/* Left Column: Image */}
         <div className="w-full lg:w-3/5">
           <img
             src={ThailandImage}
             alt="Data Package Illustration"
-            className="w-full h-auto rounded-lg shadow-lg"
+            className="w-full h-full object-cover rounded-lg shadow-lg"
             loading="lazy"
           />
         </div>
@@ -82,7 +80,7 @@ function DataPackages() {
           />
 
           {/* ProductCard */}
-          <div className="relative">
+          <div className="relative h-full">
             <ProductCard
               subtitle={sampleProduct.subtitle}
               title={sampleProduct.title}

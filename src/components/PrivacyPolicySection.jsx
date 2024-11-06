@@ -1,5 +1,4 @@
 function PrivacyPolicySection() {
-  // TO DO - Double check domain link
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold mb-6 text-center">Privacy Policy</h1>
@@ -19,7 +18,7 @@ function PrivacyPolicySection() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            www.goboundless.com
+            www.goboundlessnow.com
           </a>{" "}
           (the "Site") and use our eSIM services.
         </p>

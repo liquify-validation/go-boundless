@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import {
   CtaBanner,
   DataPackagesSection,
@@ -5,16 +6,29 @@ import {
   FeatureSection,
   Hero,
   HowItWorks,
+  LoadingSpinner,
 } from "../components";
 import CountrySection from "../components/CountrySection";
 import { faqData, featuresData } from "../data/constants";
 import { useInventory } from "../hooks/useInventory";
+import { useEffect } from "react";
 
 function Homepage() {
   const { data, error, isLoading } = useInventory();
 
-  if (isLoading) return <div>Loading eSIM Services...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error loading plan details: ${error.message}`);
+    }
+  }, [error]);
+
+  if (isLoading) {
+    return (
+      <div className="relative">
+        <LoadingSpinner text="Loading inventory..." />
+      </div>
+    );
+  }
 
   console.log("inventory", data);
 
@@ -23,16 +37,16 @@ function Homepage() {
       <div>
         <Hero />
       </div>
-      <div className="w-full pt-80">
+      <div className="w-full pt-48">
         <FeatureSection
           title="Enjoy reliable and affordable internet on your trips. We've got you covered."
           subtext="Stay connected seamlessly across the globe with our hassle-free international eSIMs—no roaming fees, just instant access wherever you are."
           features={featuresData}
         />
       </div>
-      <div className="w-full pt-80">
+      {/* <div className="w-full pt-24">
         <CountrySection />
-      </div>
+      </div> */}
       <div className="pb-24 pt-24">
         <HowItWorks />
       </div>

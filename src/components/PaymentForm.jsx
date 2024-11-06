@@ -14,6 +14,7 @@ import { useCreatePaymentIntent } from "../hooks/useCreatePaymentIntent";
 import { useAuth } from "../context/AuthContext";
 import { useUserDetails } from "../hooks/Auth/useUserDetails";
 import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "react-toastify";
 import { CardIcon, EmailIcon, LockIcon } from "../assets";
 import { parsePrice } from "../utilities/helpers";
 
@@ -21,7 +22,6 @@ import { parsePrice } from "../utilities/helpers";
 // TO DO - mastercard visa etc in line with payment information
 // TO DO - add in digital payments
 // TO DO - add crypto payments in
-// TO DO - Add loading spinner
 
 const PaymentForm = () => {
   const {
@@ -87,6 +87,15 @@ const PaymentForm = () => {
     error: paymentError,
   } = useCreatePaymentIntent();
 
+  useEffect(() => {
+    if (isPaymentError) {
+      const errorMessage =
+        paymentError?.response?.data?.message ||
+        "Payment failed. Please try again.";
+      toast.error(errorMessage);
+    }
+  }, [isPaymentError, paymentError]);
+
   const handleCheckout = async (data) => {
     if (!stripe || !elements) {
       return;
@@ -138,12 +147,12 @@ const PaymentForm = () => {
         }
 
         if (paymentIntent.status === "succeeded") {
-          console.log("Payment succeeded!");
           navigate("/payment-success");
         }
       },
       onError: (error) => {
         console.error("Payment failed:", error);
+        toast.error("Payment failed. Please try again.");
       },
     });
   };
@@ -153,6 +162,9 @@ const PaymentForm = () => {
       onSubmit={handleSubmit(handleCheckout)}
       className="payment-form flex flex-col h-full"
     >
+      {(isPaymentLoading || isPaymentProcessing) && (
+        <LoadingSpinner text="Processing payment..." />
+      )}
       {/* Back Button */}
       <button
         type="button"

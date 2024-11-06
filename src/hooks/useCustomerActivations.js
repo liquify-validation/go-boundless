@@ -5,7 +5,7 @@ export const useCustomerActivations = () => {
   return useQuery({
     queryKey: ["customerActivations"],
     queryFn: getCustomerActivations,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
     cacheTime: 1000 * 60 * 10,
     retry: false,
   });

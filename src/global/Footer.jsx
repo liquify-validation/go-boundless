@@ -19,7 +19,7 @@ const Footer = () => {
         <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
           <li>
             <a
-              href="#"
+              href="/"
               className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
             >
               Home
@@ -27,7 +27,7 @@ const Footer = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="/data-packages"
               className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
             >
               Data Plans
@@ -43,7 +43,7 @@ const Footer = () => {
           </li> */}
           <li>
             <a
-              href="#"
+              href="/contact-us"
               className="block text-slate-900 text-base font-normal leading-relaxed transition-colors hover:text-primary focus:text-primary"
             >
               Contact Us

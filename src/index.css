@@ -104,3 +104,17 @@ p {
 .uppercase-input {
   text-transform: uppercase;
 }
+
+.endpoint-table {
+  border-radius: 25px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(30px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  color: #fff !important;
+}
+
+.Toastify__toast-container--top-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   SearchBar,
   VendorTabs,
@@ -7,6 +7,8 @@ import {
 } from "../components";
 import { useDevices } from "../hooks/useDevices";
 import { IphoneImage } from "../assets";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { toast } from "react-toastify";
 
 const SupportedDevices = () => {
   const { data, error, isLoading, isError } = useDevices();
@@ -36,10 +38,19 @@ const SupportedDevices = () => {
     });
   }, [data, searchTerm, selectedVendor]);
 
-  if (isLoading) return <div>Loading Supported Devices...</div>;
-  if (isError) return <div>Error: {error.message}</div>;
+  useEffect(() => {
+    if (error) {
+      toast.error(`Error loading supported devices: ${error.message}`);
+    }
+  }, [error]);
 
-  console.log("devices", data);
+  if (isLoading) {
+    return (
+      <div className="relative">
+        <LoadingSpinner text="Loading Supported Devices..." />
+      </div>
+    );
+  }
 
   const handleSearch = (term) => {
     setSearchTerm(term);
