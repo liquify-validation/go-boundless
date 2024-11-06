@@ -1,8 +1,10 @@
 import axios from "axios";
 import { getStoredToken, setStoredToken } from "../utilities/helpers";
 
+const ApiUrl = import.meta.env.VITE_API_URL;
+
 const apiClient = axios.create({
-  baseURL: "http://backend.goboundlessnow.com/auth",
+  baseURL: `${ApiUrl}/auth`,
 
   headers: {
     "Content-Type": "application/json",
