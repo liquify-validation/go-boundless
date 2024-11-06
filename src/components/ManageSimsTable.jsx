@@ -12,7 +12,14 @@ const ManageSimsTable = () => {
   useEffect(() => {
     if (isError) {
       const errorMessage = error.data?.error || error.message;
-      toast.error(`Error loading activated items: ${errorMessage}`);
+
+      if (
+        errorMessage &&
+        !errorMessage.toLowerCase().includes("no product found") &&
+        !errorMessage.toLowerCase().includes("no activated items")
+      ) {
+        toast.error(`Error loading activated items: ${errorMessage}`);
+      }
     }
   }, [isError, error]);
 
