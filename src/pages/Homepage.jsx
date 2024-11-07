@@ -24,8 +24,8 @@ function Homepage() {
 
   if (isLoading) {
     return (
-      <div className="relative">
-        <LoadingSpinner text="Loading inventory..." />
+      <div className="relative h-48">
+        <LoadingSpinner text="Loading..." />
       </div>
     );
   }
@@ -35,7 +35,7 @@ function Homepage() {
       <div>
         <Hero />
       </div>
-      <div className="w-full pt-48">
+      <div className="w-full md:pt-48">
         <FeatureSection
           title="Enjoy reliable and affordable internet on your trips. We've got you covered."
           subtext="Stay connected seamlessly across the globe with our hassle-free international eSIMs—no roaming fees, just instant access wherever you are."

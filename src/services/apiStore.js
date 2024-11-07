@@ -79,10 +79,7 @@ export const getActivatedItem = async (itemUid) => {
   return await fetchWithAuth(url, { method: "POST" }, "storeAccessToken");
 };
 
-export const sendEnquiry = async (enquiryData) => {
-  const url = `${ApiUrl}/enquiries/enquiry`;
-  return await fetchWithAuth(url, {
-    method: "POST",
-    body: JSON.stringify(enquiryData),
-  });
+export const getPendingActivations = async () => {
+  const url = `${ApiUrl}/store/pending-activations`;
+  return await fetchWithAuth(url, { method: "POST" }, "userAccessToken");
 };

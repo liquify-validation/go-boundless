@@ -27,20 +27,22 @@ const SignupForm = () => {
   const [userEmail, setUserEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const {
-    mutate: registerUserMutation,
-    isLoading,
-    isError,
-    error,
-    isSuccess,
-  } = useRegister();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const { mutate: registerUserMutation, isLoading } = useRegister();
 
   const onSubmit = (data) => {
+    if (isSubmitting) {
+      return;
+    }
+    setIsSubmitting(true);
+
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         type: "manual",
         message: "Passwords do not match",
       });
+      setIsSubmitting(false);
       return;
     }
 
@@ -55,25 +57,23 @@ const SignupForm = () => {
     };
 
     setUserEmail(data.email);
-    registerUserMutation(userData);
+
+    registerUserMutation(userData, {
+      onSuccess: () => {
+        setIsSubmitting(false);
+        navigate("/verify-email", {
+          state: { email: data.email, redirectTo, packageData },
+        });
+      },
+      onError: (error) => {
+        setIsSubmitting(false);
+        const errorMessage =
+          error.response?.data?.message ||
+          "An error occurred during registration.";
+        toast.error(errorMessage);
+      },
+    });
   };
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/verify-email", {
-        state: { email: userEmail, redirectTo, packageData },
-      });
-    }
-  }, [isSuccess, navigate, userEmail, redirectTo, packageData]);
-
-  useEffect(() => {
-    if (isError) {
-      const errorMessage =
-        error.response?.data?.message ||
-        "An error occurred during registration.";
-      toast.error(errorMessage);
-    }
-  }, [isError, error]);
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -270,39 +270,42 @@ const SignupForm = () => {
           </label>
         </div>
 
-        <div className="flex items-center mb-4 ml-2 pt-1">
-          <input
-            type="checkbox"
-            id="termsAndConditions"
-            {...register("termsAndConditions", {
-              required:
-                "You must agree to the Terms of Service and Privacy Policy",
-            })}
-            className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-          />
-          <label
-            htmlFor="termsAndConditions"
-            className="ml-2 block text-sm text-gray-50"
-          >
-            By creating an account, I agree to the{" "}
-            <Link to="/terms-of-use" className="text-primary hover:underline">
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link to="/privacy-policy" className="text-primary hover:underline">
-              Privacy Policy
-            </Link>
-            . I may unsubscribe at any time.
-          </label>
+        <div className="flex flex-col mb-4 ml-2 pt-1">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="termsAndConditions"
+              {...register("termsAndConditions", {
+                required:
+                  "You must agree to the Terms of Service and Privacy Policy",
+              })}
+              className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+            />
+            <label
+              htmlFor="termsAndConditions"
+              className="ml-2 block text-sm text-gray-50"
+            >
+              By creating an account, I agree to the{" "}
+              <Link to="/terms-of-use" className="text-primary hover:underline">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                to="/privacy-policy"
+                className="text-primary hover:underline"
+              >
+                Privacy Policy
+              </Link>
+              . I may unsubscribe at any time.
+            </label>
+          </div>
+          {/* Error Message */}
+          {errors.termsAndConditions && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.termsAndConditions.message}
+            </p>
+          )}
         </div>
-
-        {/* Error Message */}
-        {isError && (
-          <p className="text-red-500 text-sm mt-1">
-            {error.response?.data?.message ||
-              "An error occurred during registration."}
-          </p>
-        )}
 
         {/* Submit Button */}
         <div className="flex justify-center pt-6">
@@ -311,7 +314,7 @@ const SignupForm = () => {
             type="submit"
             text={isLoading ? "Registering..." : "Register"}
             px="px-10"
-            disabled={isLoading}
+            disabled={isSubmitting || isLoading}
           />
         </div>
         <div className="text-center mt-6">

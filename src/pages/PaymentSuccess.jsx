@@ -1,6 +1,8 @@
 import React from "react";
 import { TickIcon, WorldMapBg } from "../assets";
 
+// TO DO - Add message if not received go to manage plan button
+
 const PaymentSuccess = () => {
   return (
     <section

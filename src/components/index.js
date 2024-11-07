@@ -40,6 +40,7 @@ import WarningCard from "./WarningCard";
 import PrivacyPolicy from "./PrivacyPolicySection";
 import TermsOfUseSection from "./TermsOfUseSection";
 import ScrollToTop from "./ScrollToTop";
+import PendingActivationsTable from "./PendingActivationsTable";
 
 export {
   ContactForm,
@@ -84,4 +85,5 @@ export {
   PrivacyPolicy,
   TermsOfUseSection,
   ScrollToTop,
+  PendingActivationsTable,
 };

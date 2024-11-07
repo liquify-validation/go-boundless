@@ -3,7 +3,7 @@ import Back from "../ui/Back";
 
 const Footer = () => {
   return (
-    <footer className="w-full p-8 bg-white text-text px-20">
+    <footer className="w-full p-8 bg-white text-text md:px-20">
       <div className="flex flex-wrap items-center justify-center text-center gap-y-6 gap-x-12 md:justify-between">
         {/* Logo and Text */}
         <div className="text-center">
