@@ -1,17 +1,28 @@
 import React, { useEffect } from "react";
 import { useCustomerActivations } from "../hooks/useCustomerActivations";
+import LoadingSpinner from "./LoadingSpinner";
 import WarningCard from "./WarningCard";
 import { Link } from "react-router-dom";
-import { WorldMapBg } from "../assets";
-import LoadingSpinner from "./LoadingSpinner";
 import { toast } from "react-toastify";
+import { QRCode } from "react-qrcode-logo";
+import Modal from "react-modal";
 
 const ManageSimsTable = () => {
-  const { data, isLoading, isError, error } = useCustomerActivations();
+  const {
+    data: customerActivationsData,
+    isLoading: isCustomerActivationsLoading,
+    isError: isCustomerActivationsError,
+    error: customerActivationsError,
+  } = useCustomerActivations();
+
+  const [modalIsOpen, setModalIsOpen] = React.useState(false);
+  const [qrCodeValue, setQrCodeValue] = React.useState("");
 
   useEffect(() => {
-    if (isError) {
-      const errorMessage = error.data?.error || error.message;
+    if (isCustomerActivationsError) {
+      const errorMessage =
+        customerActivationsError.data?.error ||
+        customerActivationsError.message;
 
       if (
         errorMessage &&
@@ -21,31 +32,67 @@ const ManageSimsTable = () => {
         toast.error(`Error loading activated items: ${errorMessage}`);
       }
     }
-  }, [isError, error]);
+  }, [isCustomerActivationsError, customerActivationsError]);
 
-  if (isLoading) {
+  if (isCustomerActivationsLoading) {
     return (
       <div className="relative">
-        <LoadingSpinner text="Loading activated items..." />
+        <LoadingSpinner text="Loading your plans..." />
       </div>
     );
   }
 
-  const activatedItems = data?.activatedItems?.activatedItems || [];
+  const activatedItems =
+    customerActivationsData?.activatedItems?.activatedItems || [];
+  const relatedEsims =
+    customerActivationsData?.activatedItems?.relatedEsims || [];
 
-  if (activatedItems.length === 0) {
+  if (activatedItems.length === 0 && relatedEsims.length === 0) {
     return (
       <WarningCard
-        title="No Activated Items"
-        message="You currently have no activated items."
+        title="No Plans Found"
+        message="You currently have no plans."
         buttonText="Add a Product"
         buttonLink="/data-packages"
       />
     );
   }
 
+  const combinedData = activatedItems.map((item, index) => {
+    const esim = relatedEsims[index];
+
+    const isPending = !esim.activatedAt;
+
+    return {
+      id: item.uid,
+      planName: item.balance.name,
+      activatedAt: item.balance.activatedAt
+        ? new Date(item.balance.activatedAt).toLocaleDateString()
+        : "-",
+      expiresAt: item.balance.expiresAt
+        ? new Date(item.balance.expiresAt).toLocaleDateString()
+        : "-",
+      availableBalance: item.balance.availableBalance
+        ? `${item.balance.availableBalance.sizeValue} ${item.balance.availableBalance.sizeUnit}`
+        : "-",
+      activationCode: isPending ? esim.activationCode : null,
+      isPending,
+      managePlanLink: `/manage-plan/${item.uid}`,
+    };
+  });
+
+  const openModal = (activationCode) => {
+    setQrCodeValue(activationCode);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setQrCodeValue("");
+  };
+
   return (
-    <div className="max-w-7xl mx-auto py-12 px-8  shadow-lg mb-32 mt-16 endpoint-card">
+    <div className="max-w-7xl mx-auto py-12 px-8 shadow-lg mb-32 mt-16 endpoint-card">
       <h2 className="text-4xl font-bold mb-6 text-center">Your Plans</h2>
       <table className="min-w-full endpoint-table">
         <thead className="border-b">
@@ -54,35 +101,83 @@ const ManageSimsTable = () => {
             <th className="py-3 px-6 text-left">Activated At</th>
             <th className="py-3 px-6 text-left">Expires At</th>
             <th className="py-3 px-6 text-left">Available Balance</th>
+            <th className="py-3 px-6 text-left">Activation Code</th>
             <th className="py-3 px-6 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {activatedItems.map((item) => (
-            <tr key={item.uid} className="">
-              <td className="py-3 px-6">{item.balance.name}</td>
+          {combinedData.map((item) => (
+            <tr key={item.id}>
+              <td className="py-3 px-6">{item.planName}</td>
+              <td className="py-3 px-6">{item.activatedAt}</td>
+              <td className="py-3 px-6">{item.expiresAt}</td>
+              <td className="py-3 px-6">{item.availableBalance}</td>
               <td className="py-3 px-6">
-                {new Date(item.balance.activatedAt).toLocaleDateString()}
+                {item.activationCode ? (
+                  <button
+                    className="text-primary hover:underline"
+                    onClick={() => openModal(item.activationCode)}
+                  >
+                    View Activation Code
+                  </button>
+                ) : (
+                  "-"
+                )}
               </td>
               <td className="py-3 px-6">
-                {new Date(item.balance.expiresAt).toLocaleDateString()}
-              </td>
-              <td className="py-3 px-6">
-                {item.balance.availableBalance.sizeValue}{" "}
-                {item.balance.availableBalance.sizeUnit}
-              </td>
-              <td className="py-3 px-6">
-                <Link
-                  to={`/manage-plan/${item.uid}`}
-                  className="text-primary hover:underline"
-                >
-                  Manage Plan
-                </Link>
+                {item.isPending ? (
+                  "-"
+                ) : (
+                  <Link
+                    to={item.managePlanLink}
+                    className="text-primary hover:underline"
+                  >
+                    Manage Plan
+                  </Link>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Modal for displaying QR code */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Activation Code QR"
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            transform: "translate(-50%, -50%)",
+            color: "black",
+            maxWidth: "90%",
+            maxHeight: "90%",
+            overflowY: "auto",
+            padding: "2rem",
+            borderRadius: "4px",
+          },
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.75)",
+          },
+        }}
+        ariaHideApp={false}
+      >
+        <h2 className="text-xl font-bold mb-4">Activation Code</h2>
+        <div className="flex justify-center">
+          <QRCode value={qrCodeValue} size={200} />
+        </div>
+        <p className="mt-4 text-sm break-all">{qrCodeValue}</p>
+        <button
+          className="mt-8 px-4 py-2 bg-primary text-black font-semibold rounded"
+          onClick={closeModal}
+        >
+          Close
+        </button>
+      </Modal>
     </div>
   );
 };

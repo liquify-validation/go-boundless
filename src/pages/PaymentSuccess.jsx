@@ -1,9 +1,71 @@
 import React from "react";
 import { TickIcon, WorldMapBg } from "../assets";
-
-// TO DO - Add message if not received go to manage plan button
+import LoadingSpinner from "../components/LoadingSpinner";
+import { QRCode } from "react-qrcode-logo";
+import { usePendingActivations } from "../hooks/usePendingActivations";
+import { useNavigate } from "react-router-dom";
 
 const PaymentSuccess = () => {
+  const navigate = useNavigate();
+
+  const {
+    data: activationData,
+    isLoading,
+    isError,
+    error,
+  } = usePendingActivations();
+
+  if (isLoading) {
+    return (
+      <div className="relative">
+        <LoadingSpinner text="Preparing your QR code..." />
+      </div>
+    );
+  }
+
+  if (isError) {
+    if (error.status === 401 || error.status === 403) {
+      navigate("/login");
+      return null;
+    }
+
+    return (
+      <section
+        className="relative bg-contain bg-no-repeat bg-center py-36"
+        style={{ backgroundImage: `url(${WorldMapBg})` }}
+      >
+        <div className="payment-success-container endpoint-card p-6 max-w-lg mx-auto mt-16 ">
+          <h1 className="text-xl font-bold text-center mb-8">
+            Error fetching activation data.
+          </h1>
+          <p className="text-sm">
+            Please check your email for activation instructions or contact
+            support.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  if (!activationData) {
+    return (
+      <section
+        className="relative bg-contain bg-no-repeat bg-center py-36"
+        style={{ backgroundImage: `url(${WorldMapBg})` }}
+      >
+        <div className="payment-success-container endpoint-card p-6 max-w-lg mx-auto mt-16 ">
+          <h1 className="text-xl font-bold text-center mb-8">
+            No activation data found.
+          </h1>
+          <p className="text-sm">
+            Please check your email for activation instructions or contact
+            support.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section
       className="relative bg-contain bg-no-repeat bg-center py-36"
@@ -19,12 +81,16 @@ const PaymentSuccess = () => {
           Thank You for Your Purchase!
         </h1>
         <p className="text-sm">
-          Your payment was successful and an email with your eSIM activation
-          code has been sent to your email address.
+          Your payment was successful. Please scan the QR code below to activate
+          your eSIM.
         </p>
 
-        <p className="mt-4 text-sm mb-4">
-          Please follow the instructions in the email to activate your SIM.
+        <div className="mt-8 flex justify-center">
+          <QRCode value={activationData.activation_code} size={200} />
+        </div>
+
+        <p className="mt-8 text-sm mb-4">
+          The QR code has also been sent to your email address.
         </p>
       </div>
     </section>

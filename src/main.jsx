@@ -5,6 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 const queryClient = new QueryClient({
   defaultOptions: {
