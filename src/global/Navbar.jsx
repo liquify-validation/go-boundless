@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
   Menu,
   MenuHandler,
@@ -97,6 +97,19 @@ const Navbar = () => {
 
   const isAuthenticated = !!authData.userAccessToken;
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location]);
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [menuOpen]);
 
   return (
     <header className="w-full bg-bg text-text py-4 px-6 sm:px-12">
@@ -109,7 +122,6 @@ const Navbar = () => {
           <img src={GoBoundlessLogoGreen} alt="Brand Logo" />
         </Link>
 
-        {/* Center Menu (Desktop Only) */}
         <div className="hidden sm:flex flex-1 justify-center">
           <ul className="flex gap-8 items-center">
             <li>
@@ -166,11 +178,7 @@ const Navbar = () => {
             className="text-white focus:outline-none"
             aria-label="Toggle menu"
           >
-            {menuOpen ? (
-              <RxCross2 className="h-6 w-6" />
-            ) : (
-              <RxHamburgerMenu className="h-6 w-6" />
-            )}
+            <RxHamburgerMenu className="h-6 w-6" />
           </button>
         </div>
 
@@ -194,12 +202,18 @@ const Navbar = () => {
             className="flex flex-col items-center justify-center h-full"
             onClick={(e) => e.stopPropagation()}
           >
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-4 right-4 text-white focus:outline-none"
+              aria-label="Close menu"
+            >
+              <RxCross2 className="h-6 w-6" />
+            </button>
             <ul className="flex flex-col items-center gap-6">
               <li>
                 <Link
                   className="font-medium text-white text-xl hover:text-primary focus:outline-none"
                   to="/"
-                  onClick={() => setMenuOpen(false)}
                 >
                   Home
                 </Link>
@@ -208,7 +222,6 @@ const Navbar = () => {
                 <Link
                   className="font-medium text-white text-xl hover:text-primary focus:outline-none"
                   to="/data-packages"
-                  onClick={() => setMenuOpen(false)}
                 >
                   Data
                 </Link>
@@ -219,7 +232,6 @@ const Navbar = () => {
                     <Link
                       className="font-medium text-white text-xl hover:text-primary focus:outline-none"
                       to="/manage"
-                      onClick={() => setMenuOpen(false)}
                     >
                       Manage
                     </Link>
@@ -228,7 +240,6 @@ const Navbar = () => {
                     <Link
                       className="font-medium text-white text-xl hover:text-primary focus:outline-none"
                       to="/profile"
-                      onClick={() => setMenuOpen(false)}
                     >
                       Profile
                     </Link>
@@ -239,7 +250,6 @@ const Navbar = () => {
                 <Link
                   className="font-medium text-white text-xl hover:text-primary focus:outline-none"
                   to="/contact-us"
-                  onClick={() => setMenuOpen(false)}
                 >
                   Contact Us
                 </Link>
@@ -255,11 +265,7 @@ const Navbar = () => {
                     text="Logout"
                   />
                 ) : (
-                  <CustomButton
-                    text="Login"
-                    link="/login"
-                    onClick={() => setMenuOpen(false)}
-                  />
+                  <CustomButton text="Login" link="/login" />
                 )}
               </li>
             </ul>

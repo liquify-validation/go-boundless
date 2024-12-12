@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /manage
+Disallow: /profile
+Disallow: /manage-plan
+Disallow: /checkout
+
+Sitemap: https://goboundlessnow.com/sitemap.xml

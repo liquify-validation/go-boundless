@@ -52,7 +52,6 @@ const CountrySection = () => {
             <p className="text-white">No countries found</p>
           )}
         </div>
-        {/* Centering the Button */}
         <div className="mt-16 flex justify-center">
           <CustomButton text="View all destinations" />
         </div>

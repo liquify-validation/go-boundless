@@ -8,6 +8,7 @@ import {
   FastIconWhite,
 } from "../assets";
 import { GradientDot, ThailandImage } from "../assets";
+import { Helmet } from "react-helmet-async";
 
 function DataPackages() {
   const sampleProduct = {
@@ -16,7 +17,7 @@ function DataPackages() {
     amountOfReviews: 133,
     reviewScore: 5,
     features: [
-      { icon: WifiIconWhite, text: "1GB of Data" },
+      { icon: WifiIconWhite, text: "Choose your data package" },
       { icon: FastIconWhite, text: "Fast & reliable internet" },
       { icon: NoRoamingIconWhite, text: "No more roaming charges" },
       { icon: HelpCenterIcon, text: "Customer Support" },
@@ -40,6 +41,52 @@ function DataPackages() {
 
   return (
     <>
+      <Helmet>
+        <title>
+          Go Boundless Now | Global Data Packages | Affordable International
+          eSIM Plans
+        </title>
+        <meta
+          name="description"
+          content="Choose from a range of international data packages for your eSIM. Enjoy seamless connectivity, no roaming fees, and instant activation for your travels."
+        />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="Go Boundless Now | Global Data Packages | Affordable International eSIM Plans"
+        />
+        <meta
+          property="og:description"
+          content="Choose from a range of international data packages for your eSIM. Enjoy seamless connectivity, no roaming fees, and instant activation for your travels."
+        />
+        <meta
+          property="og:url"
+          content="https://goboundlessnow.com/data-packages"
+        />
+        <meta
+          property="og:image"
+          content="https://goboundlessnow.com/og_image.png"
+        />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Cards */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Global Data Packages | Affordable International eSIM Plans"
+        />
+        <meta
+          name="twitter:description"
+          content="Choose from a range of international data packages for your eSIM. Enjoy seamless connectivity, no roaming fees, and instant activation for your travels."
+        />
+        <meta
+          name="twitter:image"
+          content="https://goboundlessnow.com/og_image.png"
+        />
+
+        <link rel="canonical" href="https://goboundlessnow.com/data-packages" />
+      </Helmet>
       {/* Subtitle Above Title */}
       <div className="text-center text-md text-primary mb-2 mt-8">
         Explore Our Plans

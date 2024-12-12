@@ -81,7 +81,6 @@ const DataPackageCards = ({
         </div>
       </div>
 
-      {/* Bottom section (rest of the card) */}
       <div className="p-6 text-center space-y-2">
         <p className="text-3xl font-bold mb-8 mt-6">
           {size} {sizeUnit}

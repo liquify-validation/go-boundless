@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { FaStar, FaRegStar, FaCircle } from "react-icons/fa";
+import { FaStar, FaRegStar, FaCircle, FaChevronRight } from "react-icons/fa";
 import {
   WifiIconWhite,
   FastIconWhite,
@@ -8,12 +8,13 @@ import {
   HelpCenterIcon,
 } from "../assets";
 
-// TO DO - replace default values with loading spinner for card
-
 const ProductCard = ({ packageData }) => {
   const [activeTab, setActiveTab] = useState("Features");
   const contentRef = useRef(null);
   const [maxContentHeight, setMaxContentHeight] = useState(0);
+
+  const tabContainerRef = useRef(null);
+  const [isScrollable, setIsScrollable] = useState(false);
 
   const dataPackage = packageData || {
     price: "loading..",
@@ -31,7 +32,7 @@ const ProductCard = ({ packageData }) => {
   const features = [
     {
       icon: WifiIconWhite,
-      text: `${dataPackage.size} ${dataPackage.sizeUnit} of Data`,
+      text: `Choose from a variety of data packages`,
     },
     { icon: FastIconWhite, text: "Fast & reliable internet" },
     { icon: NoRoamingIconWhite, text: "No more roaming charges" },
@@ -85,6 +86,26 @@ const ProductCard = ({ packageData }) => {
     setActiveTab("Features");
   }, []);
 
+  useEffect(() => {
+    const tabContainer = tabContainerRef.current;
+
+    const checkScrollable = () => {
+      if (tabContainer) {
+        const isOverflowing =
+          tabContainer.scrollWidth > tabContainer.clientWidth;
+        setIsScrollable(isOverflowing);
+      }
+    };
+
+    checkScrollable();
+
+    window.addEventListener("resize", checkScrollable);
+
+    return () => {
+      window.removeEventListener("resize", checkScrollable);
+    };
+  }, []);
+
   return (
     <div className="max-w-xl bg-opacity-10 shadow-md rounded-lg p-6 endpoint-card h-full flex flex-col">
       {/* Top Section */}
@@ -105,20 +126,30 @@ const ProductCard = ({ packageData }) => {
       </div>
 
       {/* Tabs */}
-      <div className="flex space-x-2 mb-4 bg-slate-400 bg-opacity-20 px-6 py-3 rounded-xl gap-6">
-        {["Features", "Description", "Technical Specs"].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-full text-sm focus:outline-none ${
-              activeTab === tab
-                ? "bg-primary text-black font-semibold"
-                : "bg-transparent text-gray-50 hover:bg-zinc-800"
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
+      <div className="relative mb-4">
+        <div
+          ref={tabContainerRef}
+          className="flex space-x-2 bg-slate-400 bg-opacity-20 px-6 py-3 rounded-xl gap-6 overflow-x-auto whitespace-nowrap"
+        >
+          {["Features", "Description", "Technical Specs"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-4 py-2 rounded-full text-sm focus:outline-none ${
+                activeTab === tab
+                  ? "bg-primary text-black font-semibold"
+                  : "bg-transparent text-gray-50 hover:bg-zinc-800"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+        {isScrollable && (
+          <div className="absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-slate-400 to-transparent pointer-events-none flex items-center justify-end">
+            <FaChevronRight className="text-gray-50 mr-2" />
+          </div>
+        )}
       </div>
 
       {/* Content Area */}

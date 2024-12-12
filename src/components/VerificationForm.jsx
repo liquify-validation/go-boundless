@@ -23,8 +23,12 @@ const VerificationForm = ({ email }) => {
   const [resendMessage, setResendMessage] = useState("");
   const [resendError, setResendError] = useState("");
 
-  const code = watch(["code1", "code2", "code3", "code4", "code5", "code6"]);
+  const [resendAttempts, setResendAttempts] = useState(0);
+  const [resendTimer, setResendTimer] = useState(0);
+  const [isResendDisabled, setIsResendDisabled] = useState(false);
+  const [supportMessageShown, setSupportMessageShown] = useState(false);
 
+  const code = watch(["code1", "code2", "code3", "code4", "code5", "code6"]);
   const combinedCode = code.join("");
 
   const onSubmit = (data) => {
@@ -95,6 +99,8 @@ const VerificationForm = ({ email }) => {
     onSuccess: (data) => {
       setResendMessage(data.message);
       setResendError("");
+      setResendAttempts((prev) => prev + 1);
+      startResendTimer();
     },
     onError: (error) => {
       setResendMessage("");
@@ -104,7 +110,43 @@ const VerificationForm = ({ email }) => {
     },
   });
 
+  const startResendTimer = () => {
+    setResendTimer(180);
+    setIsResendDisabled(true);
+    setSupportMessageShown(false);
+  };
+
+  useEffect(() => {
+    let timerInterval;
+    if (resendTimer > 0) {
+      timerInterval = setInterval(() => {
+        setResendTimer((prev) => {
+          const newVal = prev - 1;
+          if (newVal <= 0) {
+            setIsResendDisabled(false);
+            clearInterval(timerInterval);
+          }
+          return newVal;
+        });
+      }, 1000);
+    }
+    return () => {
+      if (timerInterval) clearInterval(timerInterval);
+    };
+  }, [resendTimer]);
+
   const handleResendCode = () => {
+    if (isResendDisabled) {
+      if (resendAttempts >= 1 && !supportMessageShown) {
+        setSupportMessageShown(true);
+        setResendMessage("");
+        setResendError(
+          "If you have still not received a code, please contact support."
+        );
+      }
+      return;
+    }
+
     resendCodeMutation({ email });
   };
 
@@ -187,11 +229,11 @@ const VerificationForm = ({ email }) => {
       {/* Resend Code Section */}
       <div className="text-center mt-6">
         <p className="text-gray-50 text-sm">
-          Didn't receive a code?{" "}
+          Didn&apos;t receive a code?{" "}
           <button
             type="button"
             onClick={handleResendCode}
-            disabled={isResendLoading}
+            disabled={isResendLoading || isResendDisabled}
             className="text-primary hover:underline disabled:opacity-50"
           >
             Resend Code
@@ -204,6 +246,14 @@ const VerificationForm = ({ email }) => {
           <p className="text-green-500 mt-2">{resendMessage}</p>
         )}
         {resendError && <p className="text-red-500 mt-2">{resendError}</p>}
+
+        {/* Show timer if running */}
+        {resendTimer > 0 && isResendDisabled && (
+          <p className="text-gray-50 mt-2">
+            You can request another code in {Math.floor(resendTimer / 60)}:
+            {("0" + (resendTimer % 60)).slice(-2)} minutes.
+          </p>
+        )}
       </div>
     </form>
   );

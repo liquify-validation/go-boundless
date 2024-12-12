@@ -36,3 +36,18 @@ export const parsePrice = (priceString) => {
   }
   return parseFloat(priceString);
 };
+
+// OLD WAY
+// export function getCryptoPaymentLink(amountInDollars) {
+//   let paymentLink = "";
+
+//   if (amountInDollars === 20) {
+//     paymentLink = "https://nowpayments.io/payment?iid=5868961302";
+//   } else if (amountInDollars === 25) {
+//     paymentLink = "https://nowpayments.io/payment?iid=1234567890";
+//   } else {
+//     paymentLink = "https://nowpayments.io/payment?iid=5868961302";
+//   }
+
+//   return paymentLink;
+// }

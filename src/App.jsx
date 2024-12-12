@@ -96,7 +96,7 @@ const App = () => {
             />
 
             {/* Nested routes for profile */}
-            <Route
+            {/* <Route
               path="/profile/settings"
               element={
                 <ProtectedRoute>
@@ -127,7 +127,7 @@ const App = () => {
                   <OrderHistory />
                 </ProtectedRoute>
               }
-            />
+            /> */}
           </Routes>
         </Layout>
         <ToastContainer

@@ -3,8 +3,6 @@ import { BasketIcon, GoBoundlessRoundedIcon } from "../assets";
 import CustomButton from "../ui/CustomButton";
 import { parsePrice } from "../utilities/helpers";
 
-// TO DO Add margin inside promo code
-
 const OrderSummary = ({ packageData }) => {
   const defaultPackage = {
     id: "Error: Missing",
@@ -95,7 +93,7 @@ const OrderSummary = ({ packageData }) => {
           placeholder="Promo code"
           value={promoCode}
           onChange={(e) => setPromoCode(e.target.value)}
-          className="w-full p-2 contact-form-field bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-primary peer mb-4"
+          className="w-full p-2 contact-form-field bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-primary peer mb-4 pl-4"
         />
         <CustomButton
           text="Apply Promo Code"

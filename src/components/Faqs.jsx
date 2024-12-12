@@ -25,14 +25,12 @@ const Faqs = ({ title, subtext, faqs }) => {
         {/* FAQs */}
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2">
           {" "}
-          {/* Two columns on medium screens and above */}
           {faqs.map((faq, index) => (
             <div
               key={index}
               className="relative my-3 w-full rounded-md border border-gray-300 px-8 py-6"
             >
               {" "}
-              {/* Adjusted padding for larger box sizes */}
               <h2
                 className="font-bold text-gray-50 text-xl cursor-pointer flex justify-between items-center"
                 onClick={() => toggleFaq(index)}

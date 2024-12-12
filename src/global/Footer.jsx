@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="text-center">
           <Back />
           <img src={GoBoundlessLogoGreen} alt="Go Boundless Logo" />
-          <p className="text-black text-sm mt-4 max-w-[50%] text-left ml-4">
+          <p className="text-black text-sm mt-4 max-w-[50%] text-left md:ml-4">
             Empowering the bold to go beyond boundaries with the best global
             data packages money can buy.
           </p>

@@ -4,6 +4,7 @@ import { useCountries } from "../hooks/useCountries";
 import { WorldMapBg } from "../assets";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const SupportedCountries = () => {
   const { data, error, isLoading } = useCountries();
@@ -41,6 +42,46 @@ const SupportedCountries = () => {
       className="relative bg-contain bg-no-repeat "
       style={{ backgroundImage: `url(${WorldMapBg})` }}
     >
+      <Helmet>
+        <title>Go Boundless Now | Supported Countries</title>
+        <meta
+          name="description"
+          content="Explore the countries where our international eSIM provides coverage. Search by country and stay connected worldwide."
+        />
+        <meta
+          property="og:title"
+          content="Go Boundless Now | Supported Countries"
+        />
+        <meta
+          property="og:description"
+          content="Explore the countries where our international eSIM provides coverage. Search and stay connected worldwide."
+        />
+        <meta
+          property="og:url"
+          content="https://goboundlessnow.com/supported-countries"
+        />
+        <meta
+          property="og:image"
+          content="https://goboundlessnow.com/og_image.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Supported Countries | Global eSIM Coverage"
+        />
+        <meta
+          name="twitter:description"
+          content="Explore the countries where our international eSIM provides coverage. Search and stay connected worldwide."
+        />
+        <meta
+          name="twitter:image"
+          content="https://goboundlessnow.com/og_image.png"
+        />
+        <link
+          rel="canonical"
+          href="https://goboundlessnow.com/supported-countries"
+        />
+      </Helmet>
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row lg:space-x-8">
           {/* Left Column: Hero Section */}

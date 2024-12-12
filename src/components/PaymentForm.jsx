@@ -11,17 +11,19 @@ import {
   FaCcJcb,
 } from "react-icons/fa";
 import { useCreatePaymentIntent } from "../hooks/useCreatePaymentIntent";
+import { useCryptoProviderStatus } from "../hooks/CryptoPayments/useCryptoProviderStatus";
 import { useAuth } from "../context/AuthContext";
 import { useUserDetails } from "../hooks/Auth/useUserDetails";
 import LoadingSpinner from "./LoadingSpinner";
 import { toast } from "react-toastify";
 import { CardIcon, EmailIcon, LockIcon } from "../assets";
 import { parsePrice } from "../utilities/helpers";
+import { useCreateInvoice } from "../hooks/CryptoPayments/useCreateInvoice";
 
-// TO DO - Card Icon in input visible
-// TO DO - mastercard visa etc in line with payment information
+const ApiUrl = import.meta.env.VITE_API_URL;
+const FrontendUrl = import.meta.env.VITE_FRONTEND_URL;
+
 // TO DO - add in digital payments
-// TO DO - add crypto payments in
 
 const PaymentForm = () => {
   const {
@@ -35,11 +37,22 @@ const PaymentForm = () => {
   const location = useLocation();
   const { packageData } = location.state || {};
   const { data: userDetails, isLoading, isError } = useUserDetails();
+  const {
+    data: cryptoProviderStatus,
+    isLoading: isCryptoStatusLoading,
+    error: cryptoProviderStatusError,
+  } = useCryptoProviderStatus();
 
   const [selectedPayment, setSelectedPayment] = useState("creditCard");
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
   const [amount, setAmount] = useState(0);
   const [selectedPackageId, setSelectedPackageId] = useState("");
+  const [isCryptoOptionAvailable, setIsCryptoOptionAvailable] = useState(false);
+  const {
+    mutate: createInvoice,
+    isLoading: isInvoiceLoading,
+    isError: isInvoiceError,
+  } = useCreateInvoice();
 
   const stripe = useStripe();
   const elements = useElements();
@@ -51,6 +64,34 @@ const PaymentForm = () => {
   const [userCountry, setUserCountry] = useState("");
 
   const email = watch("email");
+
+  useEffect(() => {
+    console.log("Crypto Provider Status:", cryptoProviderStatus);
+    console.log("Is Loading:", isCryptoStatusLoading);
+    console.log("Amount:", amount);
+
+    if (
+      amount >= 0 &&
+      !isCryptoStatusLoading &&
+      cryptoProviderStatus?.message === "OK"
+    ) {
+      setIsCryptoOptionAvailable(true);
+    } else {
+      setIsCryptoOptionAvailable(false);
+    }
+
+    if (cryptoProviderStatusError) {
+      console.error(
+        "Error fetching crypto provider status:",
+        cryptoProviderStatusError
+      );
+    }
+  }, [
+    amount,
+    isCryptoStatusLoading,
+    cryptoProviderStatus,
+    cryptoProviderStatusError,
+  ]);
 
   useEffect(() => {
     if (userDetails) {
@@ -97,7 +138,16 @@ const PaymentForm = () => {
   }, [isPaymentError, paymentError]);
 
   const handleCheckout = async (data) => {
-    if (!stripe || !elements) {
+    if (selectedPayment === "crypto") {
+      const paymentData = {
+        price_amount: amount / 100,
+        price_currency: "usd",
+        ipn_callback_url: `${ApiUrl}/store/ipn-callback`,
+        success_url: `${FrontendUrl}/payment-success`,
+        cancel_url: `${FrontendUrl}/payment-cancelled`,
+      };
+
+      createInvoice(paymentData);
       return;
     }
 
@@ -169,7 +219,7 @@ const PaymentForm = () => {
   return (
     <form
       onSubmit={handleSubmit(handleCheckout)}
-      className="payment-form flex flex-col h-full"
+      className="payment-form flex flex-col h-full "
     >
       {(isPaymentLoading || isPaymentProcessing) && (
         <LoadingSpinner text="Processing payment..." />
@@ -280,50 +330,114 @@ const PaymentForm = () => {
         <hr className="border-gray-300 my-4" />
 
         {/* Payment Section */}
-        <div className="p-4 rounded-lg">
-          <div className="payment-section mb-8">
-            <h2 className="section-title flex items-center text-xl font-semibold mb-2 gap-3">
-              <img src={CardIcon} alt="card-icon" /> Payment Information
-            </h2>
-            <p className="text-sm text-gray-50 mb-4 flex items-center gap-2">
-              <img src={LockIcon} alt="lock-icon" className="w-4 h-4" />
-              Secure payment processing.
-            </p>
+        <div className="payment-section mb-8">
+          <h2 className="section-title text-xl font-semibold mb-4 flex items-center gap-3">
+            <img src={CardIcon} alt="card-icon" /> Payment Information
+          </h2>
+          <p className="text-sm text-gray-50 mb-4 flex items-center gap-2">
+            <img src={LockIcon} alt="lock-icon" className="w-4 h-4" />
+            Secure payment processing.
+          </p>
 
-            {/* Bank Card Icons */}
-            <div className="flex space-x-4 mb-4">
-              <FaCcVisa size={24} color="#fff" />
-              <FaCcMastercard size={24} color="#fff" />
-              <FaCcAmex size={24} color="#fff" />
-              <FaCcDiscover size={24} color="#fff" />
-              <FaCcJcb size={24} color="#fff" />
-            </div>
+          {/* Payment Method Selection */}
+          <hr className="border-gray-400" />
+          <div className="payment-method-selection mb-6">
+            {/* Credit Card Option */}
+            <div className="rounded-md mb-4">
+              <label
+                className="flex items-center p-4 cursor-pointer"
+                onClick={() => setSelectedPayment("creditCard")}
+              >
+                <div className="relative flex items-center">
+                  <input
+                    type="radio"
+                    value="creditCard"
+                    checked={selectedPayment === "creditCard"}
+                    onChange={() => setSelectedPayment("creditCard")}
+                    className="peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-[#8ddc3a] checked:border-[#8ddc3a] transition-all"
+                  />
+                  <span className="absolute bg-[#8ddc3a] w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                </div>
+                <span className="ml-4 text-md font-semibold flex-1">
+                  Credit Card
+                </span>
+                {/* Bank Card Icons */}
+                <div className="flex space-x-2">
+                  <FaCcVisa size={24} color="#fff" />
+                  <FaCcMastercard size={24} color="#fff" />
+                  <FaCcAmex size={24} color="#fff" />
+                  <FaCcDiscover size={24} color="#fff" />
+                  <FaCcJcb size={24} color="#fff" />
+                </div>
+              </label>
+              {selectedPayment === "creditCard" && (
+                <>
+                  <div className="p-4">
+                    {/* Credit Card Input */}
+                    <div className="relative">
+                      <CardElement
+                        className="w-full contact-form-field p-3 bg-transparent focus:outline-none focus:border-primary text-gray-50"
+                        options={{
+                          style: {
+                            base: {
+                              fontSize: "16px",
+                              color: "#ffffff",
+                              "::placeholder": {
+                                color: "#ffff",
+                              },
+                              iconColor: "#ffffff",
+                            },
+                            invalid: {
+                              color: "#9e2146",
+                              iconColor: "#9e2146",
+                            },
+                          },
+                        }}
+                      />
 
-            {/* Credit Card Input */}
-            <div className="relative">
-              <CardElement
-                className="w-full pl-4 p-3 contact-form-field bg-transparent border-b-2 border-gray-300 focus:outline-none focus:border-primary peer mb-4 text-gray-50"
-                options={{
-                  style: {
-                    base: {
-                      fontSize: "16px",
-                      color: "#ffffff",
-                      "::placeholder": {
-                        color: "#aab7c4",
-                      },
-                    },
-                    invalid: {
-                      color: "#9e2146",
-                    },
-                  },
-                }}
-              />
-              {errors.card && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.card.message}
-                </p>
+                      {errors.card && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.card.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </>
               )}
             </div>
+            <hr className="border-gray-400" />
+
+            {/* Crypto Option */}
+            {isCryptoOptionAvailable && (
+              <div className="rounded-md mt-6">
+                <label
+                  className="flex items-center p-4 cursor-pointer"
+                  onClick={() => setSelectedPayment("crypto")}
+                >
+                  <div className="relative flex items-center">
+                    <input
+                      type="radio"
+                      value="crypto"
+                      checked={selectedPayment === "crypto"}
+                      onChange={() => setSelectedPayment("crypto")}
+                      className="peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-[#8ddc3a] checked:border-[#8ddc3a] transition-all"
+                    />
+                    <span className="absolute bg-[#8ddc3a] w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                  </div>
+                  <span className="ml-4 text-md font-semibold flex-1">
+                    Crypto
+                  </span>
+                </label>
+                {selectedPayment === "crypto" && (
+                  <>
+                    <div className="p-4">
+                      <p>Proceed to pay with cryptocurrency.</p>
+                    </div>
+                  </>
+                )}
+                <hr className="border-gray-400 mt-4" />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -331,13 +445,20 @@ const PaymentForm = () => {
       {/* Checkout Button and Small Print */}
       <div className="mt-auto">
         <CustomButton
-          text="Checkout"
-          type="submit"
+          text={
+            selectedPayment === "creditCard" ? "Checkout" : "Pay with Crypto"
+          }
+          type={selectedPayment === "creditCard" ? "submit" : "button"}
+          onClick={
+            selectedPayment === "crypto"
+              ? () => handleSubmit(handleCheckout)()
+              : null
+          }
           fullWidth
           textSize="text-lg"
         />
         <p className="text-xs text-gray-50 mt-4 ml-1 mb-2">
-          *By clicking on Checkout you automatically agree to the 
+          *By clicking on Checkout you automatically agree to the
           <a href="/terms" className="underline">
             {" "}
             Terms & Conditions{" "}

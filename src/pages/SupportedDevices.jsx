@@ -9,6 +9,7 @@ import { useDevices } from "../hooks/useDevices";
 import { IphoneImage } from "../assets";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
 
 const SupportedDevices = () => {
   const { data, error, isLoading, isError } = useDevices();
@@ -62,6 +63,46 @@ const SupportedDevices = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>Go Boundless Now | Supported Devices</title>
+        <meta
+          name="description"
+          content="Find out which devices are compatible with our international eSIM services. Search by vendor or device name to ensure seamless connectivity."
+        />
+        <meta
+          property="og:title"
+          content="Go Boundless Now | Supported Devices"
+        />
+        <meta
+          property="og:description"
+          content="Find out which devices are compatible with our international eSIM services. Search by vendor or device name."
+        />
+        <meta
+          property="og:url"
+          content="https://goboundlessnow.com/supported-devices"
+        />
+        <meta
+          property="og:image"
+          content="https://goboundlessnow.com/og_image.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Supported Devices | eSIM Compatibility"
+        />
+        <meta
+          name="twitter:description"
+          content="Find out which devices are compatible with our international eSIM services. Search by vendor or device name."
+        />
+        <meta
+          name="twitter:image"
+          content="https://goboundlessnow.com/og_image.png"
+        />
+        <link
+          rel="canonical"
+          href="https://goboundlessnow.com/supported-devices"
+        />
+      </Helmet>
       <div className="flex flex-col lg:flex-row lg:space-x-8">
         {/* Left Column: Hero Section */}
         <div className="lg:w-1/3 mb-8 lg:mb-0">

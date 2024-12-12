@@ -7,7 +7,7 @@ import { IphoneImage, EsimsBg } from "../assets";
 const HowItWorks = () => {
   return (
     <section
-      className="relative bg-contain pt-20 bg-center bg-no-repeat"
+      className="relative bg-contain md:pt-20 bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${EsimsBg})` }}
     >
       {/* Heading */}
@@ -19,7 +19,7 @@ const HowItWorks = () => {
       {/* Image */}
       <div className="flex justify-center">
         <img
-          className="object-contain w-full h-[1000px] rounded-xl lg:w-4/5"
+          className="object-contain w-full md:h-[1000px] rounded-xl lg:w-4/5"
           src={IphoneImage}
           alt="App example"
         />
@@ -30,7 +30,6 @@ const HowItWorks = () => {
         <HowItWorksCards data={howItWorksData} />
       </div>
 
-      {/* Button at the Bottom */}
       {/* <div className="text-center ">
         <Button text="See How it Works" />
       </div> */}

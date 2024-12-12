@@ -7,9 +7,7 @@ import { GoBoundlessLogoGreen } from "../assets";
 import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
-import LoadingSpinner from "./LoadingSpinner";
-
-// TO DO - Style date of birth make it more DOB friendly
+import { LoadingSpinner, PasswordStrengthChecker } from "../components";
 
 const SignupForm = () => {
   const {
@@ -83,6 +81,8 @@ const SignupForm = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
+  const passwordValue = watch("password") || "";
+
   return (
     <div className="max-w-2xl mx-auto py-12 px-8 bg-white rounded-xl shadow-lg endpoint-card mb-32 mt-16">
       {isLoading && <LoadingSpinner text="Registering..." />}
@@ -98,9 +98,9 @@ const SignupForm = () => {
           <input
             type="text"
             {...register("firstName", { required: "First name is required" })}
-            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            className="w-full p-3 mb-4 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
           />
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
             First Name
           </label>
           {errors.firstName && (
@@ -115,9 +115,9 @@ const SignupForm = () => {
           <input
             type="text"
             {...register("lastName", { required: "Last name is required" })}
-            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            className="w-full p-3 mb-4 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
           />
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
             Last Name
           </label>
           {errors.lastName && (
@@ -138,10 +138,10 @@ const SignupForm = () => {
                 message: "Invalid email address",
               },
             })}
-            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            className="w-full p-3 mb-4 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
             autoComplete="off"
           />
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
             Email
           </label>
           {errors.email && (
@@ -154,10 +154,10 @@ const SignupForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             {...register("password", { required: "Password is required" })}
-            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            className="w-full p-3 mb-4 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
             autoComplete="new-password"
           />
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
             Password
           </label>
           <button
@@ -175,6 +175,9 @@ const SignupForm = () => {
           )}
         </div>
 
+        {/* Password Strength Checker */}
+        <PasswordStrengthChecker password={passwordValue} />
+
         {/* Confirm Password */}
         <div className="relative">
           <input
@@ -184,9 +187,9 @@ const SignupForm = () => {
               validate: (value) =>
                 value === watch("password") || "Passwords do not match",
             })}
-            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            className="w-full p-3 mb-4 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
           />
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
             Confirm Password
           </label>
           <button
@@ -213,10 +216,10 @@ const SignupForm = () => {
           <input
             type="date"
             {...register("birthdate")}
-            className="w-full p-3 mb-4 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
-            max={new Date().toISOString().split("T")[0]} // Prevent selecting future dates
+            className="w-full p-3 mb-4 bg-white text-black border border-gray-300 focus:outline-none focus:border-primary peer rounded-md appearance-none"
+            max={new Date().toISOString().split("T")[0]}
           />
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
             Date of Birth (Optional)
           </label>
           {errors.birthdate && (
@@ -228,7 +231,7 @@ const SignupForm = () => {
 
         {/* Country of Residence */}
         <div className="relative">
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm transform -translate-y-6 scale-75 origin-left">
             Country of Residence
           </label>
           <Controller
@@ -239,10 +242,10 @@ const SignupForm = () => {
               <ReactFlagsSelect
                 selected={field.value}
                 onSelect={field.onChange}
-                className="w-full menu-flag "
-                selectButtonClassName="w-full p-3 contact-form-field bg-transparent border border-gray-300 focus:outline-none focus:border-primary rounded-md mt-6"
-                placeholder="Select Country"
+                className="w-full menu-flag"
+                selectButtonClassName="w-full p-3 bg-white text-black border border-gray-300 focus:outline-none focus:border-primary rounded-md mt-6"
                 searchable
+                placeholder="Select Country"
               />
             )}
           />
@@ -254,7 +257,7 @@ const SignupForm = () => {
         </div>
 
         {/* Marketing Preferences */}
-        <div className="flex items-center mb-4 ml-2 pt-1 ">
+        <div className="flex items-center mb-4 ml-2 pt-1">
           <input
             type="checkbox"
             id="marketingEmails"
@@ -299,7 +302,6 @@ const SignupForm = () => {
               . I may unsubscribe at any time.
             </label>
           </div>
-          {/* Error Message */}
           {errors.termsAndConditions && (
             <p className="text-red-500 text-sm mt-1">
               {errors.termsAndConditions.message}

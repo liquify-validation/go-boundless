@@ -41,6 +41,7 @@ import PrivacyPolicy from "./PrivacyPolicySection";
 import TermsOfUseSection from "./TermsOfUseSection";
 import ScrollToTop from "./ScrollToTop";
 import PendingActivationsTable from "./PendingActivationsTable";
+import PasswordStrengthChecker from "./PasswordStrengthChecker";
 
 export {
   ContactForm,
@@ -86,4 +87,5 @@ export {
   TermsOfUseSection,
   ScrollToTop,
   PendingActivationsTable,
+  PasswordStrengthChecker,
 };

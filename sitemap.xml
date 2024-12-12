@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://goboundlessnow.com/</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/data-packages</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/signup</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/login</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/contact-us</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/forgot-password</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/reset-password</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/payment-success</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/privacy-policy</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/terms-of-use</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/supported-devices</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/supported-countries</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://goboundlessnow.com/verify-email</loc>
+    <lastmod>2023-10-10</lastmod>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

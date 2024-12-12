@@ -28,6 +28,122 @@ export const authenticate = async () => {
   return data;
 };
 
+// Crypto Payment Provider Status
+export const fetchCryptoProviderStatus = async () => {
+  const response = await fetch(`${ApiUrl}/store/payment_provider_status`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Error: Crypto Payments not available");
+  }
+
+  return data;
+};
+
+// Available Cryptocurrencies
+export const fetchAvailableCryptos = async () => {
+  const response = await fetch(`${ApiUrl}/store/available_currencies`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await response.json();
+
+  console.log("Response Data:", data);
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || "Failed to fetch available cryptocurrencies"
+    );
+  }
+
+  return data;
+};
+
+// Fetch Minimum Payment Amount
+export const fetchMinimumPaymentAmount = async (
+  currency_from,
+  currency_to = "usd"
+) => {
+  const response = await fetch(`${ApiUrl}/store/minimum-payment-amount`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ currency_from, currency_to }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to fetch minimum payment amount");
+  }
+  return data;
+};
+
+// Fetch Estimated Price
+export const fetchEstimatedPrice = async (
+  amount,
+  currency_from = "usd",
+  currency_to
+) => {
+  const response = await fetch(`${ApiUrl}/store/estimated-price`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount, currency_from, currency_to }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to fetch estimated price");
+  }
+  return data;
+};
+
+// Create Crypto Payment
+export const createCryptoPayment = async (paymentData) => {
+  const response = await fetch(`${ApiUrl}/store/create-crypto-payment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(paymentData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to create crypto payment");
+  }
+
+  return data;
+};
+
+// Get Crypto Payment Status
+export const getCryptoPaymentStatus = async (paymentId) => {
+  const response = await fetch(
+    `${ApiUrl}/store/get-payment-status/${paymentId}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.error || "Failed to get payment status");
+  }
+  return data;
+};
+
 // Fetch Inventory
 export const fetchInventory = async () => {
   const url = `${ApiUrl}/store/inventory`;
@@ -82,4 +198,22 @@ export const getActivatedItem = async (itemUid) => {
 export const getPendingActivations = async () => {
   const url = `${ApiUrl}/store/pending-activations`;
   return await fetchWithAuth(url, { method: "POST" }, "userAccessToken");
+};
+
+export const createInvoice = async (paymentData) => {
+  const response = await fetch(`${ApiUrl}/store/create-invoice`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(paymentData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || "Error creating invoice");
+  }
+
+  return data;
 };

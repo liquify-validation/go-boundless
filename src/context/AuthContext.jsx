@@ -43,13 +43,14 @@ export const AuthProvider = ({ children }) => {
   const loginUserMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
+      console.log("Login Response Data:", data);
       setAuthData((prev) => ({
         ...prev,
         userAccessToken: data.access_token,
         refreshToken: data.refresh_token,
         userId: data.user_id,
       }));
-      setStoredToken("userAccessToken", data.access_token, data.expires_in);
+      setStoredToken("userAccessToken", data.access_token, 900);
       setStoredToken("refreshToken", data.refresh_token);
       setStoredToken("userId", data.user_id);
       setErrorMessage(null);

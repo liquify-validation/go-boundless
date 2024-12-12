@@ -21,7 +21,7 @@ const Hero = () => {
           <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-white mt-4">
             Limitless Connectivity, Uncompromised Privacy
           </h1>
-          <p className="text-lg text-gray-50 mt-8 ">
+          <p className="text-lg text-gray-50 mt-8 w-[90%] sm:max-w-4/5 ">
             Unlock boundless global connectivity while keeping your personal
             data secure. Our e-SIMs provide robust and reliable internet access
             across continents, ensuring you remain connected no matter where

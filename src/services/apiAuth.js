@@ -33,7 +33,7 @@ export const refreshAccessToken = async () => {
       },
     });
     const newAccessToken = response.data.access_token;
-    setStoredToken("userAccessToken", newAccessToken, 900); // Use the correct expiresIn value
+    setStoredToken("userAccessToken", newAccessToken, 900);
     return newAccessToken;
   } catch (error) {
     console.error("Failed to refresh access token:", error);
@@ -68,10 +68,10 @@ export const resendVerificationCode = async (emailData) => {
 
 export const getUserDetails = async () => {
   const accessToken = getStoredToken("userAccessToken");
-  const userId = getStoredToken("userId");
+  console.log("Access Token:", accessToken);
   const response = await apiClient.post(
     "/user",
-    { user_id: userId },
+    {},
     {
       headers: {
         Authorization: `Bearer ${accessToken}`,
