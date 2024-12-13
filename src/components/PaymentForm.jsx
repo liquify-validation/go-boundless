@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { useCreatePaymentIntent } from "../hooks/useCreatePaymentIntent";
 import { useCryptoProviderStatus } from "../hooks/CryptoPayments/useCryptoProviderStatus";
+import { PaymentRequestButtonElement } from "@stripe/react-stripe-js";
 import { useAuth } from "../context/AuthContext";
 import { useUserDetails } from "../hooks/Auth/useUserDetails";
 import LoadingSpinner from "./LoadingSpinner";
@@ -22,8 +23,6 @@ import { useCreateInvoice } from "../hooks/CryptoPayments/useCreateInvoice";
 
 const ApiUrl = import.meta.env.VITE_API_URL;
 const FrontendUrl = import.meta.env.VITE_FRONTEND_URL;
-
-// TO DO - add in digital payments
 
 const PaymentForm = () => {
   const {
@@ -48,6 +47,7 @@ const PaymentForm = () => {
   const [amount, setAmount] = useState(0);
   const [selectedPackageId, setSelectedPackageId] = useState("");
   const [isCryptoOptionAvailable, setIsCryptoOptionAvailable] = useState(false);
+  const [paymentRequest, setPaymentRequest] = useState(null);
   const {
     mutate: createInvoice,
     isLoading: isInvoiceLoading,
@@ -66,12 +66,8 @@ const PaymentForm = () => {
   const email = watch("email");
 
   useEffect(() => {
-    console.log("Crypto Provider Status:", cryptoProviderStatus);
-    console.log("Is Loading:", isCryptoStatusLoading);
-    console.log("Amount:", amount);
-
     if (
-      amount >= 0 &&
+      amount >= 2000 &&
       !isCryptoStatusLoading &&
       cryptoProviderStatus?.message === "OK"
     ) {
@@ -127,6 +123,87 @@ const PaymentForm = () => {
     isError: isPaymentError,
     error: paymentError,
   } = useCreatePaymentIntent();
+
+  useEffect(() => {
+    if (stripe && amount > 0) {
+      const pr = stripe.paymentRequest({
+        country: "US",
+        currency: "usd",
+        total: {
+          label: "Total",
+          amount: amount,
+        },
+        requestPayerName: true,
+        requestPayerEmail: true,
+      });
+
+      pr.canMakePayment().then((result) => {
+        if (result) {
+          setPaymentRequest(pr);
+        } else {
+          setPaymentRequest(null);
+        }
+      });
+
+      pr.on("paymentmethod", async (ev) => {
+        try {
+          const paymentData = {
+            payment_method_id: ev.paymentMethod.id,
+            amount: amount,
+            currency: "usd",
+            inventoryItemId: selectedPackageId,
+            customerEmail: ev.payerEmail || email,
+            userIp: userIp,
+            userCountry: userCountry,
+            expectedPrice: {
+              sortIndex: 1,
+              priceValue: amount / 100,
+              currencyCode: "USD",
+            },
+            customerUid: dentUid || "",
+          };
+
+          createPaymentIntent(paymentData, {
+            onSuccess: async (data) => {
+              const clientSecret = data.client_secret;
+              const { error: confirmError, paymentIntent } =
+                await stripe.confirmCardPayment(clientSecret, {
+                  payment_method: ev.paymentMethod.id,
+                });
+
+              if (confirmError) {
+                ev.complete("fail");
+                toast.error(confirmError.message);
+              } else if (paymentIntent.status === "succeeded") {
+                ev.complete("success");
+                navigate("/payment-success");
+              } else {
+                ev.complete("fail");
+                toast.error("Payment was not successful. Please try again.");
+              }
+            },
+            onError: (error) => {
+              console.error("Payment failed:", error);
+              toast.error("Payment failed. Please try again.");
+              ev.complete("fail");
+            },
+          });
+        } catch (error) {
+          console.error("Payment Request error:", error);
+          ev.complete("fail");
+        }
+      });
+    }
+  }, [
+    stripe,
+    amount,
+    createPaymentIntent,
+    selectedPackageId,
+    userIp,
+    userCountry,
+    dentUid,
+    email,
+  ]);
 
   useEffect(() => {
     if (isPaymentError) {
@@ -406,39 +483,78 @@ const PaymentForm = () => {
               )}
             </div>
             <hr className="border-gray-400" />
+            <div className="rounded-md mt-6">
+              <label className="flex items-center p-4 cursor-pointer">
+                <div className="relative flex items-center">
+                  <input
+                    type="radio"
+                    value="crypto"
+                    checked={selectedPayment === "crypto"}
+                    disabled={!isCryptoOptionAvailable}
+                    onChange={() => {
+                      if (isCryptoOptionAvailable) {
+                        setSelectedPayment("crypto");
+                      }
+                    }}
+                    className="peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-[#8ddc3a] checked:border-[#8ddc3a] transition-all disabled:opacity-50"
+                  />
+                  <span className="absolute bg-[#8ddc3a] w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                </div>
+                <span className="ml-4 text-md font-semibold flex-1">
+                  Crypto
+                </span>
+              </label>
 
-            {/* Crypto Option */}
-            {isCryptoOptionAvailable && (
+              {!isCryptoOptionAvailable && (
+                <div className="p-4">
+                  <p className="text-red-500 text-sm">
+                    Crypto payments are only available on products over $20.
+                  </p>
+                </div>
+              )}
+
+              {/* Only show instructions if crypto is selected and available */}
+              {selectedPayment === "crypto" && isCryptoOptionAvailable && (
+                <div className="p-4">
+                  <p>Proceed to pay with cryptocurrency.</p>
+                </div>
+              )}
+              <hr className="border-gray-400 mt-4" />
+            </div>
+          </div>
+          {paymentRequest && (
+            <>
               <div className="rounded-md mt-6">
                 <label
                   className="flex items-center p-4 cursor-pointer"
-                  onClick={() => setSelectedPayment("crypto")}
+                  onClick={() => setSelectedPayment("digitalWallet")}
                 >
                   <div className="relative flex items-center">
                     <input
                       type="radio"
-                      value="crypto"
-                      checked={selectedPayment === "crypto"}
-                      onChange={() => setSelectedPayment("crypto")}
+                      value="digitalWallet"
+                      checked={selectedPayment === "digitalWallet"}
+                      onChange={() => setSelectedPayment("digitalWallet")}
                       className="peer h-4 w-4 cursor-pointer appearance-none rounded-full border border-[#8ddc3a] checked:border-[#8ddc3a] transition-all"
                     />
                     <span className="absolute bg-[#8ddc3a] w-2 h-2 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
                   </div>
                   <span className="ml-4 text-md font-semibold flex-1">
-                    Crypto
+                    Apple Pay / Google Pay
                   </span>
                 </label>
-                {selectedPayment === "crypto" && (
-                  <>
-                    <div className="p-4">
-                      <p>Proceed to pay with cryptocurrency.</p>
-                    </div>
-                  </>
+                {selectedPayment === "digitalWallet" && (
+                  <div className="p-4">
+                    <PaymentRequestButtonElement
+                      options={{ paymentRequest }}
+                      className="payment-request-button"
+                    />
+                  </div>
                 )}
                 <hr className="border-gray-400 mt-4" />
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -446,7 +562,11 @@ const PaymentForm = () => {
       <div className="mt-auto">
         <CustomButton
           text={
-            selectedPayment === "creditCard" ? "Checkout" : "Pay with Crypto"
+            selectedPayment === "creditCard"
+              ? "Checkout"
+              : selectedPayment === "crypto"
+              ? "Pay with Crypto"
+              : "Checkout"
           }
           type={selectedPayment === "creditCard" ? "submit" : "button"}
           onClick={
@@ -456,6 +576,7 @@ const PaymentForm = () => {
           }
           fullWidth
           textSize="text-lg"
+          disabled={selectedPayment === "digitalWallet"}
         />
         <p className="text-xs text-gray-50 mt-4 ml-1 mb-2">
           *By clicking on Checkout you automatically agree to the

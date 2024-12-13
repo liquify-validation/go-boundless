@@ -154,7 +154,7 @@ const SignupForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             {...register("password", { required: "Password is required" })}
-            className="w-full p-3 mb-4 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
+            className="w-full p-3 mb-0 bg-transparent border border-gray-300 focus:outline-none focus:border-primary peer rounded-md"
             autoComplete="new-password"
           />
           <label className="absolute left-4 top-0 text-gray-400 text-sm transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
@@ -176,7 +176,9 @@ const SignupForm = () => {
         </div>
 
         {/* Password Strength Checker */}
-        <PasswordStrengthChecker password={passwordValue} />
+        <div className="pb-6 ml-1">
+          <PasswordStrengthChecker password={passwordValue} />
+        </div>
 
         {/* Confirm Password */}
         <div className="relative">

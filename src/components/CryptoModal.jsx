@@ -199,7 +199,6 @@ const CryptoModal = ({
       }
 
       const availableCryptos = availableCryptosData?.currencies || [];
-      console.log("Available Cryptos:", availableCryptos);
 
       return (
         <div>

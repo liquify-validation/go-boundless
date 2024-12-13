@@ -7,7 +7,5 @@ export const useCryptoProviderStatus = () => {
     queryFn: fetchCryptoProviderStatus,
   });
 
-  console.log("Crypto Provider Status Query Result:", queryResult);
-
   return queryResult;
 };

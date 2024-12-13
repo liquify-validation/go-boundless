@@ -19,18 +19,18 @@ const PasswordStrengthChecker = ({ password }) => {
 
   return (
     <div className="mt-2">
-      <p className="text-sm mb-2 font-medium text-gray-700">
+      <p className="text-sm mb-2 font-medium text-gray-50">
         Password Requirements:
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
         {requirements.map((req, index) => (
           <div key={index} className="flex items-center space-x-2 text-sm">
             {req.isMet ? (
-              <FaCheckCircle className="text-green-500" />
+              <FaCheckCircle className="text-[#b3ff4a]" />
             ) : (
-              <FaTimesCircle className="text-gray-400" />
+              <FaTimesCircle className="text-gray-50" />
             )}
-            <span className={req.isMet ? "text-green-600" : "text-gray-500"}>
+            <span className={req.isMet ? "text-green-50" : "text-gray-50"}>
               {req.label}
             </span>
           </div>

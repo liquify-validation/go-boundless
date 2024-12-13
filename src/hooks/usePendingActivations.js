@@ -5,5 +5,7 @@ export const usePendingActivations = () => {
   return useQuery({
     queryKey: ["pendingActivations"],
     queryFn: getPendingActivations,
+    retry: 5,
+    retryDelay: 2000,
   });
 };

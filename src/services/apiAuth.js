@@ -68,7 +68,6 @@ export const resendVerificationCode = async (emailData) => {
 
 export const getUserDetails = async () => {
   const accessToken = getStoredToken("userAccessToken");
-  console.log("Access Token:", accessToken);
   const response = await apiClient.post(
     "/user",
     {},

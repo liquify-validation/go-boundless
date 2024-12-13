@@ -6,6 +6,7 @@ import "./index.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import Modal from "react-modal";
+import { HelmetProvider } from "react-helmet-async";
 
 Modal.setAppElement("#root");
 
@@ -26,7 +27,9 @@ createRoot(document.getElementById("root")).render(
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <ErrorBoundary>
-          <App />
+          <HelmetProvider>
+            <App />
+          </HelmetProvider>
         </ErrorBoundary>
       </AuthProvider>
     </QueryClientProvider>
