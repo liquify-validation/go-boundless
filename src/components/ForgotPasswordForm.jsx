@@ -37,22 +37,19 @@ const ForgotPassword = () => {
         </div>
         {isSuccess ? (
           <div className="mt-4">
-            <p className="text-lg text-gray-700 mb-4">
+            <p className="text-sm justify-content text-gray-50 mb-4">
               Instructions to reset your password have been sent to your email.
               If you did not receive the email, please check your spam folder.
             </p>
             <div className="mt-5 flex justify-center">
-              <a
-                href="/login"
-                className="px-4 py-2 text-blue-500 hover:underline"
-              >
+              <a href="/login" className="px-4 py-2 hover:underline">
                 Back to Login
               </a>
             </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
-            <p className="text-sm text-gray-700 text-center max-w-lg mb-8">
+            <p className="text-sm text-gray-50 text-center max-w-lg mb-8">
               Enter your email address and we will send you instructions to
               reset your password.
             </p>

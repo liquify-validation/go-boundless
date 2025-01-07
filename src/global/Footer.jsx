@@ -2,6 +2,8 @@ import { GoBoundlessLogoGreen } from "../assets";
 import Back from "../ui/Back";
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="w-full p-8 bg-white text-text md:px-20">
       <div className="flex flex-wrap items-center justify-center text-center gap-y-6 gap-x-12 md:justify-between">
@@ -60,7 +62,7 @@ const Footer = () => {
       <div className="flex flex-wrap justify-between items-center text-center text-sm">
         {/* Left Side: Copyright */}
         <p className="text-sm text-gray-400">
-          © 2024 Liquify. All rights reserved.
+          © {currentYear} Liquify. All rights reserved.
         </p>
 
         {/* Right Side: Privacy Policy and Terms */}

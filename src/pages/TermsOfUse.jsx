@@ -4,7 +4,7 @@ import { WorldMapBg } from "../assets";
 const TermsOfUse = () => {
   return (
     <section
-      className="relative bg-cover bg-center"
+      className="relative bg-contain bg-no-repeat bg-center"
       style={{ backgroundImage: `url(${WorldMapBg})` }}
     >
       <div>
