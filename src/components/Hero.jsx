@@ -31,7 +31,7 @@ const Hero = () => {
             <br />
             <br />
             At Go Boundless, we blend cutting-edge technology with a commitment
-            to your privacy, offering a mobile experience that’s both expansive
+            to your privacy, offering a mobile experience thats both seamless
             and safeguarded.
           </p>
           <div className="mt-12">
