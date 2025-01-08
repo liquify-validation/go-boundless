@@ -149,18 +149,20 @@ const ProfileForm = () => {
         </div>
 
         {/* Currency */}
-        <div className="relative">
+        {/* <div className="relative ">
           <select
             {...register("currency", { required: "Currency is required" })}
             className={`w-full p-3 mb-4 contact-form-field bg-transparent border ${
               errors.currency ? "border-red-500" : "border-gray-300"
-            } focus:outline-none focus:border-primary peer rounded-md`}
+            } focus:outline-none focus:border-primary peer rounded-md `}
           >
-            <option value="USD">USD</option>
+            <option className="" value="USD">
+              USD
+            </option>
             <option value="EUR">EUR</option>
             <option value="GBP">GBP</option>
           </select>
-          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left">
+          <label className="absolute left-4 top-0 text-gray-400 text-sm pointer-events-none transition-all duration-300 transform -translate-y-6 scale-75 origin-left ">
             Currency<span className="text-red-500">*</span>
           </label>
           {errors.currency && (
@@ -168,10 +170,10 @@ const ProfileForm = () => {
               {errors.currency.message}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* Language */}
-        <div className="relative">
+        {/* <div className="relative">
           <select
             {...register("language", { required: "Language is required" })}
             className={`w-full p-3 mb-4 contact-form-field bg-transparent border ${
@@ -190,7 +192,7 @@ const ProfileForm = () => {
               {errors.language.message}
             </p>
           )}
-        </div>
+        </div> */}
 
         {/* Marketing Emails */}
         <div className="form-group form-check">

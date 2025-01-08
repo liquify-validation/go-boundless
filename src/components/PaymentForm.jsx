@@ -109,7 +109,7 @@ const PaymentForm = () => {
         const response = await fetch("https://ipapi.co/json/");
         const data = await response.json();
         setUserIp(data.ip);
-        setUserCountry(data.country_name);
+        setUserCountry(data.country);
       } catch (error) {
         console.error("Error fetching user location:", error);
       }

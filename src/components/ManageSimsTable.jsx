@@ -20,16 +20,15 @@ const ManageSimsTable = () => {
 
   useEffect(() => {
     if (isCustomerActivationsError) {
-      const errorMessage =
+      const statusCode = customerActivationsError?.response?.status;
+      const defaultErrorMessage =
         customerActivationsError.data?.error ||
         customerActivationsError.message;
 
-      if (
-        errorMessage &&
-        !errorMessage.toLowerCase().includes("no product found") &&
-        !errorMessage.toLowerCase().includes("no activated items")
-      ) {
-        toast.error(`Error loading activated items: ${errorMessage}`);
+      if (statusCode === 404) {
+        toast.error("No data found for your account.");
+      } else {
+        toast.error(`Error loading activated items: ${defaultErrorMessage}`);
       }
     }
   }, [isCustomerActivationsError, customerActivationsError]);
@@ -47,7 +46,10 @@ const ManageSimsTable = () => {
   const relatedEsims =
     customerActivationsData?.activatedItems?.relatedEsims || [];
 
-  if (activatedItems.length === 0 && relatedEsims.length === 0) {
+  if (
+    isCustomerActivationsError &&
+    customerActivationsError?.response?.status === 404
+  ) {
     return (
       <WarningCard
         title="No Plans Found"
