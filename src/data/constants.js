@@ -24,9 +24,9 @@ import Spain from "../assets/countries/Spain.svg";
 export const featuresData = [
   {
     icon: DataIcon,
-    title: "Unlimited Data",
+    title: "Flexible Data Plans",
     details: [
-      "No need to worry about data limits; enjoy unrestricted access anywhere you go.",
+      "No need to worry about data limits, We have a wide range of data plans to fit all of your needs.",
     ],
   },
   {
@@ -61,7 +61,7 @@ export const featuresData = [
     icon: DualSimsIcon,
     title: "Enjoy Dual Sims",
     details: [
-      "Easily switch between your personal and travel numbers on a single device.",
+      "Easily switch between your personal and travel data sims on modern devices.",
     ],
   },
 ];
