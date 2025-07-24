@@ -10,6 +10,8 @@ import {
 
 const images = [PhilippinesImage, SingaporeImage, ThailandImage, VietnamImage];
 
+//TODO - Network tab - images are contsantly reloaded - fix this
+
 const Gallery = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [initialLoading, setInitialLoading] = useState(true);

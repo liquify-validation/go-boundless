@@ -5,20 +5,28 @@ import { WorldMapBg } from "../assets";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
 
 const SupportedCountries = () => {
-  const { data, error, isLoading } = useCountries();
+  const { data: allCountries, error, isLoading } = useCountries();
+  const { state } = useLocation();
+  const packageCodes = state?.includedCountries || [];
   const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredCountries = useMemo(() => {
-    if (!data || !data.length) return [];
+  const baseline = useMemo(() => {
+    if (!allCountries) return [];
+    return packageCodes.length
+      ? allCountries.filter((c) => packageCodes.includes(c.code))
+      : allCountries;
+  }, [allCountries, packageCodes]);
 
-    return data.filter(
+  const filteredCountries = useMemo(() => {
+    return baseline.filter(
       (country) =>
         country.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         country.code.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [data, searchTerm]);
+  }, [baseline, searchTerm]);
 
   useEffect(() => {
     if (error) {
