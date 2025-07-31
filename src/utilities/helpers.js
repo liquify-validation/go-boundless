@@ -51,3 +51,8 @@ export const parsePrice = (priceString) => {
 
 //   return paymentLink;
 // }
+
+export const splitPackageName = (raw) => {
+  const [plan, sizeLabel = ""] = raw.split(" - ");
+  return { plan: plan.trim(), sizeLabel: sizeLabel.trim() };
+};
